@@ -1,5 +1,5 @@
+^README\.Rmd$
 \.git
 ^\.travis\.yml$
 
 vignettes/
-

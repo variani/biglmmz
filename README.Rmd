@@ -1,13 +1,23 @@
+---
+output: github_document
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
 # biglmmz
 
-[![travis-ci build
-status](https://travis-ci.org/variani/biglmmz.svg?branch=master)](https://travis-ci.org/variani/biglmmz)
+[![travis-ci build status](https://travis-ci.org/variani/biglmmz.svg?branch=master)](https://travis-ci.org/variani/biglmmz)
 
-Low-rank linear mixed models (LMMs) powered by
-[bigstatsr](https://github.com/privefl/bigstatsr).
+Low-rank linear mixed models (LMMs) powered by [bigstatsr](https://github.com/privefl/bigstatsr).
 
 ## Installation
 
@@ -18,10 +28,10 @@ devtools::install_github("variani/biglmmz")
 
 ## Example
 
-This is a sanity check to see whether `biglmmz` recovers the
-heritability of a quantitative trait on simulated data.
+This is a sanity check to see whether
+ `biglmmz` recovers the heritability of a quantitative trait on simulated data.
 
-``` r
+```{r simdat}
 library(biglmmz)
 
 N <- 1500; M <- 200; h2 <- 0.8
@@ -40,5 +50,5 @@ y <- Z %*% b + rnorm(N, 0, sqrt(1 - h2))
   
 mod <- biglmmz(y, Z = Zg, scale = TRUE)
 mod$gamma
-#> [1] 0.8083054
 ```
+
