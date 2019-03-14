@@ -19,27 +19,38 @@ devtools::install_github("variani/biglmmz")
 ## Example
 
 This is a sanity check to see whether `biglmmz` recovers the
-heritability of a quantitative trait on simulated data.
+heritability of a quantitative trait on simulated data (1500
+individuals, 200 genetic markers, 80% heritability).
 
 ``` r
 library(biglmmz)
 
 N <- 1500; M <- 200; h2 <- 0.8
 
+# simulate genotypes
 set.seed(33)
-Zg <- sapply(1:M, function(i) rbinom(N, 2, 0.5)) # allele freq. = 0.5
+freqs <- rep(0.5, M) # allele freq. = 0.5
+Z <- sapply(freqs, function(f) rbinom(N, 2, f)) 
 
-col_means <- colMeans(Zg, na.rm = TRUE)
-col_freq <- col_means / 2  # col_means = 2 * col_freq
-col_sd <- sqrt(2 * col_freq * (1 - col_freq))
+# scale genotypes
+Z_means <- colMeans(Z, na.rm = TRUE)
+Z_freq <- Z_means / 2  # Z_means = 2 * Z_freq
+Z_sd <- sqrt(2 * Z_freq * (1 - Z_freq))
 
-Z <- sweep(Zg, 2, col_means, "-")
-Z <- sweep(Z, 2, col_sd , "/")
+Z_sc <- sweep(Z, 2, Z_means, "-")
+Z_sc <- sweep(Z_sc, 2, Z_sd , "/")
 
 b <- rnorm(M, 0, sqrt(h2/M))
-y <- Z %*% b + rnorm(N, 0, sqrt(1 - h2))
-  
-mod <- biglmmz(y, Z = Zg, scale = TRUE)
-mod$gamma
+y <- Z_sc %*% b + rnorm(N, 0, sqrt(1 - h2))
+
+# fit model on raw genotypes
+m1 <- biglmmz(y, Z = Z, scale = TRUE)
+m1$gamma
+#> [1] 0.7963861
+
+# fit model on scaled genotypes and normalized by sqrt(M)
+Z_norm <- Z_sc / sqrt(M)
+m2 <- biglmmz(y, Z = Z_norm, scale = FALSE)
+m2$gamma
 #> [1] 0.7963861
 ```
