@@ -1,0 +1,28 @@
+Package: biglmmz
+Type: Package
+Title:  Low-rank linear mixed models (LMMs) powered by bigstatsr 
+Description: Model fitting is based on Woodbury matrix identity, Matrix determinant lemma and powered by efficient on-disk matrix operations from bigstatsr.
+Version: 0.1.0
+Date: 2019-03-14
+Authors@R: c(
+  person("Andrey", "Ziyatdinov", 
+         email = "andrey.ziyatdinov@upc.edu", 
+         role = c("aut", "cre")),
+  person("Florian", "Privé", 
+         email = "florian.prive.21@gmail.com", 
+         role = c("aut")))
+License: GPL-3
+Encoding: UTF-8
+Imports:
+    bigstatsr (>= 0.8.4)
+Suggests:
+    testthat,
+    knitr,
+    rmarkdown
+Collate:
+    'package.R'
+    'scale.R'
+    'lowrank.R'
+    'biglmm.R'
+RoxygenNote: 6.1.1
+VignetteBuilder: knitr

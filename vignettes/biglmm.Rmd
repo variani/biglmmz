@@ -1,0 +1,48 @@
+---
+title: "Fitting low-rank mixed models in bigstatr"
+author: "Andrey Ziyatdinov"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Fitting low-rank mixed models in bigstatr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# About
+
+```{r inc}
+library(devtools)
+load_all("~/git/hemostat/ukbpower/biglmm")
+```
+
+# Simulated data
+
+The model expected to recover the true heritability of 0.8
+given the sample size of 1,500 individuals and 200 causal genetic markers.
+
+```{r recover_h2}
+N <- 1500; M <- 200; h2 <- 0.8
+  
+Zg <- sapply(1:M, function(i) rbinom(N, 2, 0.5)) # allele freq. = 0.5
+
+col_means <- colMeans(Zg, na.rm = TRUE)
+col_freq <- col_means / 2  # col_means = 2 * col_freq
+col_sd <- sqrt(2 * col_freq * (1 - col_freq))
+
+Z <- sweep(Zg, 2, col_means, "-")
+Z <- sweep(Z, 2, col_sd , "/")
+
+b <- rnorm(M, 0, sqrt(h2/M))
+y <- Z %*% b + rnorm(N, 0, sqrt(1 - h2))
+  
+mod1 <- biglmm(y, Z = Zg, scale = TRUE)
+mod1$gamma
+```
