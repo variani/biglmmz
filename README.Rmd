@@ -35,7 +35,8 @@ This is a sanity check to see whether
 library(biglmmz)
 
 N <- 1500; M <- 200; h2 <- 0.8
-  
+
+set.seed(33)
 Zg <- sapply(1:M, function(i) rbinom(N, 2, 0.5)) # allele freq. = 0.5
 
 col_means <- colMeans(Zg, na.rm = TRUE)

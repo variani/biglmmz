@@ -25,7 +25,8 @@ heritability of a quantitative trait on simulated data.
 library(biglmmz)
 
 N <- 1500; M <- 200; h2 <- 0.8
-  
+
+set.seed(33)
 Zg <- sapply(1:M, function(i) rbinom(N, 2, 0.5)) # allele freq. = 0.5
 
 col_means <- colMeans(Zg, na.rm = TRUE)
@@ -40,5 +41,5 @@ y <- Z %*% b + rnorm(N, 0, sqrt(1 - h2))
   
 mod <- biglmmz(y, Z = Zg, scale = TRUE)
 mod$gamma
-#> [1] 0.8083054
+#> [1] 0.7963861
 ```
