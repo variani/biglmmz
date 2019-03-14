@@ -7,6 +7,8 @@ Low-rank linear mixed models (LMMs) powered by [bigstatsr](https://github.com/pr
 ## Example
 
 ```
+library(biglmmz)
+
 N <- 1500; M <- 200; h2 <- 0.8
   
 Zg <- sapply(1:M, function(i) rbinom(N, 2, 0.5)) # allele freq. = 0.5
@@ -21,6 +23,6 @@ Z <- sweep(Z, 2, col_sd , "/")
 b <- rnorm(M, 0, sqrt(h2/M))
 y <- Z %*% b + rnorm(N, 0, sqrt(1 - h2))
   
-mod <- biglmm(y, Z = Zg, scale = TRUE)
+mod <- biglmmz(y, Z = Zg, scale = TRUE)
 mod$gamma
 ```

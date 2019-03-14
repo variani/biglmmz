@@ -6,7 +6,7 @@
 - G = tcrossprod(Z)
 - G is a low-rank matrix: ncol(Z) << nrow(Z)}
 \usage{
-biglr_det(comp, Z, log = TRUE)
+biglr_det(comp, Z, K = NULL, log = TRUE)
 }
 \description{
 (1) \url{https://en.wikipedia.org/wiki/Matrix_determinant_lemma}

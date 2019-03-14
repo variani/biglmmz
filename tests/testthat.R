@@ -1,4 +1,4 @@
 library(testthat)
-library(biglmm)
+library(biglmmzz)
 
-test_check("biglmm")
+test_check("biglmmzz")

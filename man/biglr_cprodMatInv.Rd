@@ -4,7 +4,7 @@
 \alias{biglr_cprodMatInv}
 \title{Computes X'Vi}
 \usage{
-biglr_cprodMatInv(comp, Z, Xmat, transpose = FALSE)
+biglr_cprodMatInv(comp, Z, Xmat, K = NULL, transpose = FALSE)
 }
 \arguments{
 \item{comp}{two-element vector of variance components}
@@ -12,7 +12,7 @@ biglr_cprodMatInv(comp, Z, Xmat, transpose = FALSE)
 \item{Z}{FBM of scaled genotypes}
 
 \item{transpose}{(default FALSE) logical
-whether return transposed product (X'Vi)'}
+whether return transposed product (X'Vi)' = Vi' X}
 
 \item{X}{matrix of covariates}
 }

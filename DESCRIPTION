@@ -23,6 +23,6 @@ Collate:
     'package.R'
     'scale.R'
     'lowrank.R'
-    'biglmm.R'
+    'biglmmz.R'
 RoxygenNote: 6.1.1
 VignetteBuilder: knitr

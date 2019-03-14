@@ -1,5 +1,5 @@
 #------------------------
-# Main function biglmm
+# Main function biglmmz
 #------------------------
 
 #' Low-rank LMM with a single random effect and residual random effect.
@@ -15,7 +15,7 @@
 #' @import bigstatsr
 #'
 #' @export
-biglmm <- function(y, X, Z, scale = FALSE,
+biglmmz <- function(y, X, Z, scale = FALSE,
   REML = TRUE,
   compute_K = TRUE,
   store_mat = FALSE, 
@@ -23,7 +23,7 @@ biglmm <- function(y, X, Z, scale = FALSE,
 {
   mc <- match.call()
 
-  if(verbose) { cat("biglmm:\n") }
+  if(verbose) { cat("biglmmz:\n") }
 
   ### args
   stopifnot(!missing(y))
