@@ -10,7 +10,10 @@ Authors@R: c(
          role = c("aut", "cre")),
   person("Florian", "Privé", 
          email = "florian.prive.21@gmail.com", 
-         role = c("aut")))
+         role = "aut"),
+  person("Hugues", "Aschard", 
+         email = "hugues.aschard@pasteur.fr",
+         role = "ths"))
 License: GPL-3
 Encoding: UTF-8
 Imports:
