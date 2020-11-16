@@ -15,13 +15,18 @@
 #' @import bigstatsr
 #'
 #' @export
-biglmmz <- function(y, X, Z, scale = FALSE,
+biglmmz <- function(y, X, 
+  Z, M, cols, backingfile = tempfile(), copy_Z = TRUE,
+  K = NULL,
+  scale = FALSE, impute = FALSE,
   REML = TRUE,
   compute_K = TRUE,
   store_mat = FALSE, 
   verbose = 0)
 {
   mc <- match.call()
+  missing_cols <- missing(cols)
+  missing_M <- missing(M)
 
   if(verbose) { cat("biglmmz:\n") }
 
@@ -40,30 +45,74 @@ biglmmz <- function(y, X, Z, scale = FALSE,
   stopifnot(nrow(y) == nrow(Z))
 
   ### process Z -> get a scaled 'double' FBM
-  Z0 <- Z
-  Z <- FBM(nrow(Z0), ncol(Z0))
-  if (verbose) cat(" - convert and scale Z if necessary\n")
-  big_apply(Z, function(Z, ind) {
-    if (scale) {
-      # scale Z such a way that ZZ' = GRM
-      Z0_part <- Z0[, ind]
+  if(inherits(Z, "FBM")) {
+    if(copy_Z) {
+      type <- ifelse(scale, "double", typeof(Z))
+
+      if(missing_cols) {
+        Z <- big_copy(Z, type = type, backingfile = backingfile)
+      } else {
+        Z <- big_copy(Z, ind.col = cols, type = type, backingfile = backingfile)
+      }
       
-      col_means <- colMeans(Z0_part)
-      col_freq <- col_means / 2  # col_means = 2 * col_freq
-      col_sd <- sqrt(2 * ncol(Z) * col_freq * (1 - col_freq))
-      
-      Z[, ind] <- sweep(sweep(Z0_part, 2, col_means, "-"), 2, col_sd , "/")
+      if(scale) {
+        if(missing_M) {
+          Z <- scale_Z(Z, impute = impute, M = ncol(Z))
+        } else {
+          Z <- scale_Z(Z, impute = impute, M = M)
+        }
+      }
     } else {
-      Z[, ind] <- Z0[, ind]
+      stopifnot(!scale)
+      stopifnot(!impute)
     }
-    NULL
-  })
+  } else {
+    Z0 <- Z
+    Z <- FBM(nrow(Z0), ncol(Z0), backingfile = backingfile)
+    if (verbose) cat(" - convert and scale Z if necessary\n")
+    big_apply(Z, function(Z, ind) {
+      if (scale) {
+        # scale Z such a way that ZZ' = GRM
+        Z0_part <- Z0[, ind]
+
+        col_means <- colMeans(Z0_part, na.rm = TRUE)
+        col_freq <- col_means / 2  # col_means = 2 * col_freq
+        col_sd <- sqrt(2 * ncol(Z) * col_freq * (1 - col_freq))
+        
+        Z0_part <- sweep(sweep(Z0_part, 2, col_means, "-"), 2, col_sd , "/")
+        
+        if(impute) {
+          if(verbose > 1) cat(" -- impute\n")
+          Z0_part[is.na(Z0_part)] <- 0.0
+          # for(i in seq(ncol(Z0_part))) {
+          #   if(verbose > 1) cat(" -- impute column", i, "/", ncol(Z0_part), "\n")
+          #   z <- Z0_part[, i]
+          #   ind_na <- is.na(z)
+          #   if(any(ind_na)) {
+          #    Z0_part[ind_na, i] <- 0 
+          #   }
+          # }
+        }
+
+        Z[, ind] <- Z0_part
+      } else {
+        Z[, ind] <- Z0[, ind]
+      }
+      NULL
+    })
+  }
 
   ### pre-compute K = Z'Z
-  K <- NULL
   if(compute_K) {
-    K <- crossprod(Z)
-  }
+    if(is.null(K)) {
+      if (verbose) cat(" - precompute K = crossprod(Z)\n")
+      K <- crossprod(Z)
+    } else {
+      if (verbose) cat(" - passed by argument K = crossprod(Z)\n")
+      stopifnot(ncol(K) == ncol(Z))
+      stopifnot(nrow(K) == ncol(Z))
+    }
+  } 
   
   ### optimize
   if (verbose) cat(" - optimize\n")
@@ -76,7 +125,7 @@ biglmmz <- function(y, X, Z, scale = FALSE,
   convergence <- NA
 
   ### estimates of fixed effects
-  if (verbose) cat(" - fixed effects\n")
+  if (verbose) cat(" - estimate fixed effects\n")
   
   est <- biglr_fixef(r2, y, X, Z, K = K, REML = REML)
   
@@ -84,7 +133,7 @@ biglmmz <- function(y, X, Z, scale = FALSE,
   coef <- within(coef, z <- beta / se)
   
   ### estimates of random effects
-  if (verbose) cat(" - random effects\n")
+  if (verbose) cat(" - estimate random effects\n")
   
   gamma <- r2
   s2 <- est$s2
@@ -101,6 +150,24 @@ biglmmz <- function(y, X, Z, scale = FALSE,
   }
 
   mod$lmm <- list(r2 = r2, ll = ll, convergence = convergence, REML = REML)
+
+  # trace factor
+  K <- crossprod(Z)
+  lamdas <- eigen(K)$values
+
+  N <- length(y)
+  M <- ncol(Z)
+  h2 <- gamma
+
+  trace_factor <- (sum(1/(h2*lamdas + (1-h2))) + (N-M)/(1-h2)) / N
+
+  mod$ess <- tibble(N = N, M = M, s2 = mod$s2, h2 = h2,
+    trace_factor = trace_factor)
+
+  ## clean
+  if(!store_mat & copy_Z) {
+    file.remove(paste0(backingfile, ".bk"))
+  }
 
   return(mod)
 }

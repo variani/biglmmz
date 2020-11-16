@@ -1,7 +1,38 @@
+#----------------------------------
+# Scaling functions for FBM
+#----------------------------------
+scale_Z <- function(Z, impute = TRUE, M = ncol(Z))
+{
+  stopifnot(inherits(Z, "FBM"))
 
-#-----------------------
-# Scaling functions
-#-----------------------
+  big_apply(Z, function(Z, ind) {
+    # scale Z such a way that ZZ' = GRM if M = ncol(Z)
+    Z0_part <- Z[, ind]
+
+    # col_means <- colMeans(Z0_part, na.rm = TRUE)
+    col_means <- matrixStats::colMeans2(Z0_part, na.rm = TRUE)
+    # col_freq <- col_means / 2  # col_means = 2 * col_freq
+    # col_sd <- sqrt(2 * M * col_freq * (1 - col_freq))
+    col_sd <- matrixStats::colSds(Z0_part, center = col_means, na.rm = TRUE)
+
+    # Z0_part <- sweep(sweep(Z0_part, 2, col_means, "-"), 2, col_sd , "/")
+    Z0_part <- scale(Z0_part, center = col_means, scale = col_sd * sqrt(M))
+    
+    if(impute) {
+      Z0_part[is.na(Z0_part)] <- 0.0
+    }
+
+    Z[, ind] <- Z0_part
+
+    NULL
+  })
+
+  return(invisible())
+}
+
+#----------------------------------
+# Scaling functions for matrices
+#----------------------------------
 
 impute_mean <- function(Z)
 {
