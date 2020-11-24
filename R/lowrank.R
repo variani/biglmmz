@@ -79,6 +79,55 @@ biglr_cprodMatInv <- function(comp, Z, Xmat, K = NULL, transpose = FALSE)
   }
 }
 
+big_scale2 <- function(center = TRUE, scale = TRUE, M = 1)
+{
+    function(X, ind.row = rows_along(X), ind.col = cols_along(X)) {
+        m <- length(ind.col)
+        if (center) {
+            tmp <- big_colstats(X, ind.row, ind.col)
+            means <- tmp$sum/length(ind.row)
+            sds <- if (scale)
+                sqrt(tmp$var)
+            else rep(1, m)
+        }
+        else {
+            means <- rep(0, m)
+            sds <- rep(1, m)
+        }
+        data.frame(center = means, scale = sqrt(M)*sds)
+    }
+}
+
+biglr_cprodMatInv2 <- function(comp, Z, X, K = NULL, transpose = FALSE,
+  cols = seq(ncol(Z)), M = length(cols))
+{
+  # n <- nrow(Z)
+  # k <- ncol(Z)
+
+  # (1) Li <- solve(diag(k) / comp[1] + crossprod(Z) / comp[2])
+  # (2) t(X) / comp[2] - crossprod(X, Z) %*% tcrossprod(Li, Z) / (comp[2] * comp[2])
+
+  # L = K / comp[2]  or K = comp[2] L
+  f_sc <- big_scale2(M = M)
+  stats <- f_sc(Z, ind.col = cols)
+
+  if(is.null(K)) {
+    K <- big_crossprodSelf(Z, fun.scaling = f_sc, ind.col = cols)[]
+  }
+  diag(K) <- diag(K) + comp[2] / comp[1]
+
+  part <- big_prodMat(Z, 
+    solve(K, big_cprodMat(Z, X, ind.col = cols, 
+      center = stats$center, scale = stats$scale)),
+    ind.col = cols, center = stats$center, scale = stats$scale)
+
+  if (transpose) {
+    (X - part) / comp[2]
+  } else {
+    t(X - part) / comp[2]
+  }
+}
+
 #' Computes X'Vi in an efficient way in a low-rank scenario (see below)
 #'
 #'  - Vi is the inverse of matrix V
