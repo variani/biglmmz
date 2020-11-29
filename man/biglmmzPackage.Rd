@@ -3,7 +3,6 @@
 \docType{package}
 \name{biglmmzPackage}
 \alias{biglmmzPackage}
-\alias{biglmmzPackage-package}
 \title{Package biglmmz.}
 \description{
 Low-rank LMM in bistatsr

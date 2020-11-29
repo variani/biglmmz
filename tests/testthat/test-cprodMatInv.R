@@ -1,6 +1,6 @@
 context("cprodMatIn")
 
-N <- 5e2; M <- 1e2; P <- 10
+N <- 50; M <- 10; P <- 4
 
 Xmat <- matrix(rnorm(P*N), nrow = N, ncol = P)
 comp <- c(0.8, 0.2)

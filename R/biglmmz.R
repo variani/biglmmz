@@ -45,6 +45,8 @@ biglmmz <- function(y, X,
   stopifnot(nrow(y) == nrow(Z))
 
   ### process Z -> get a scaled 'double' FBM
+  if (verbose) cat(" - convert and scale Z if necessary\n")
+
   if(inherits(Z, "FBM")) {
     if(copy_Z) {
       type <- ifelse(scale, "double", typeof(Z))
@@ -57,9 +59,9 @@ biglmmz <- function(y, X,
       
       if(scale) {
         if(missing_M) {
-          Z <- scale_Z(Z, impute = impute, M = ncol(Z))
+          scale_Z(Z, impute = impute, M = ncol(Z))
         } else {
-          Z <- scale_Z(Z, impute = impute, M = M)
+          scale_Z(Z, impute = impute, M = M)
         }
       }
     } else {
@@ -69,7 +71,6 @@ biglmmz <- function(y, X,
   } else {
     Z0 <- Z
     Z <- FBM(nrow(Z0), ncol(Z0), backingfile = backingfile)
-    if (verbose) cat(" - convert and scale Z if necessary\n")
     big_apply(Z, function(Z, ind) {
       if (scale) {
         # scale Z such a way that ZZ' = GRM
@@ -152,7 +153,7 @@ biglmmz <- function(y, X,
   mod$lmm <- list(r2 = r2, ll = ll, convergence = convergence, REML = REML)
 
   # trace factor
-  K <- crossprod(Z)
+  if (verbose) cat(" - multiplier\n")
   lamdas <- eigen(K)$values
 
   N <- length(y)
@@ -161,7 +162,7 @@ biglmmz <- function(y, X,
 
   trace_factor <- (sum(1/(h2*lamdas + (1-h2))) + (N-M)/(1-h2)) / N
 
-  mod$ess <- tibble(N = N, M = M, s2 = mod$s2, h2 = h2,
+  mod$ess <- data.frame(N = N, M = M, s2 = s2, h2 = h2,
     trace_factor = trace_factor)
 
   ## clean

@@ -1,4 +1,22 @@
 #----------------------------------
+# Impute functions for FBM
+#----------------------------------
+impute_Z <- function(Z, impute = "zero")
+{
+  stopifnot(inherits(Z, "FBM"))
+  stopifnot(impute == "zero")
+
+  big_apply(Z, function(Z, ind) {
+    Z0_part <- Z[, ind]
+    Z0_part[is.na(Z0_part)] <- 0
+    Z[, ind] <- Z0_part
+    NULL
+  })
+
+  return(invisible())
+}
+
+#----------------------------------
 # Scaling functions for FBM
 #----------------------------------
 scale_Z <- function(Z, impute = TRUE, M = ncol(Z))

@@ -4,8 +4,22 @@
 \alias{biglmmz}
 \title{Low-rank LMM with a single random effect and residual random effect.}
 \usage{
-biglmmz(y, X, Z, scale = FALSE, REML = TRUE, compute_K = TRUE,
-  store_mat = FALSE, verbose = 0)
+biglmmz(
+  y,
+  X,
+  Z,
+  M,
+  cols,
+  backingfile = tempfile(),
+  copy_Z = TRUE,
+  K = NULL,
+  scale = FALSE,
+  impute = FALSE,
+  REML = TRUE,
+  compute_K = TRUE,
+  store_mat = FALSE,
+  verbose = 0
+)
 }
 \description{
 Model definition:
