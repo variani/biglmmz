@@ -61,5 +61,9 @@ m1$gamma
 Z_norm <- Z_sc / sqrt(M)
 m2 <- biglmmz(y, Z = Z_norm, scale = FALSE)
 m2$gamma
+
+# fit model on raw genotypes & avoid explicit scaling
+# G <- as_FBM(Z) # input matrix of genotypes is FBM
+# m3 <- biglmmg(y, G = as_FBM(Z))
 ```
 

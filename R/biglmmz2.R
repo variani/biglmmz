@@ -54,7 +54,7 @@ biglmmg <- function(y, X,
   if (verbose) cat(" - optimize\n")
   out <- optimize(biglr_ll_grm, c(0, 1),
     y = y, X = X, 
-    G = G, cols, f_sc, stats,
+    G = G, cols, f_sc = f_sc, stats = stats,
     K = K, REML = REML, verbose = verbose,
     maximum = TRUE)
 
