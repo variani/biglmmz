@@ -63,7 +63,23 @@ m2 <- biglmmz(y, Z = Z_norm, scale = FALSE)
 m2$gamma
 
 # fit model on raw genotypes & avoid explicit scaling
-# G <- as_FBM(Z) # input matrix of genotypes is FBM
-# m3 <- biglmmg(y, G = as_FBM(Z))
-```
+G <- as_FBM(Z) # input matrix of genotypes is FBM
+m3 <- biglmmg(y, G = as_FBM(Z))
+m3$gamma 
+
+# Effective sample size (ESS) multipier
+K <- big_crossprodSelf(G, fun.scaling = big_scale_grm(M = M))[]
+# K <- crossprod(Z_norm)
+
+lamdas <- eigen(K)$values
+
+# varianace components = s2 * c(h2, 1 - h2)
+h2 <- m3$gamma
+s2 <- m3$s2
+
+mult <- (1/s2) * (sum(1/(h2*lamdas + (1-h2))) + (N-M)/(1-h2)) / N
+
+res <- data.frame(N = N, M = M, h2_hat = h2, s2 = s2, mult = mult)
+res
+``` 
 

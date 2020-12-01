@@ -53,4 +53,43 @@ Z_norm <- Z_sc / sqrt(M)
 m2 <- biglmmz(y, Z = Z_norm, scale = FALSE)
 m2$gamma
 #> [1] 0.7963861
+
+# fit model on raw genotypes & avoid explicit scaling
+G <- as_FBM(Z) # input matrix of genotypes is FBM
+m3 <- biglmmg(y, G = as_FBM(Z))
+#> function(X, ind.row = rows_along(X), ind.col = cols_along(X)) {
+#>     m <- length(ind.col)
+#>     if (center) {
+#>       tmp <- big_colstats(X, ind.row, ind.col)
+#>       means <- tmp$sum/length(ind.row)
+#>       sds <- if (scale)
+#>           sqrt(tmp$var)
+#>       else rep(1, m)
+#>     }
+#>     else {
+#>       means <- rep(0, m)
+#>       sds <- rep(1, m)
+#>     }
+#>     data.frame(center = means, scale = sqrt(M)*sds)
+#>   }
+#> <environment: 0x7fdb26f4c7d8>
+m3$gamma 
+#> [1] 0.7974539
+
+# Effective sample size (ESS) multipier
+K <- big_crossprodSelf(G, fun.scaling = big_scale_grm(M = M))[]
+# K <- crossprod(Z_norm)
+
+lamdas <- eigen(K)$values
+
+# varianace components = s2 * c(h2, 1 - h2)
+h2 <- m3$gamma
+s2 <- m3$s2
+
+mult <- (1/s2) * (sum(1/(h2*lamdas + (1-h2))) + (N-M)/(1-h2)) / N
+
+res <- data.frame(N = N, M = M, h2_hat = h2, s2 = s2, mult = mult)
+res
+#>      N   M    h2_hat        s2     mult
+#> 1 1500 200 0.7974539 0.9743175 4.416904
 ```
