@@ -33,12 +33,13 @@ freqs <- rep(0.5, M) # allele freq. = 0.5
 Z <- sapply(freqs, function(f) rbinom(N, 2, f)) 
 
 # scale genotypes
-Z_means <- colMeans(Z, na.rm = TRUE)
-Z_freq <- Z_means / 2  # Z_means = 2 * Z_freq
-Z_sd <- sqrt(2 * Z_freq * (1 - Z_freq))
+# Z_means <- colMeans(Z, na.rm = TRUE)
+# Z_freq <- Z_means / 2  # Z_means = 2 * Z_freq
+# Z_sd <- sqrt(2 * Z_freq * (1 - Z_freq))
 
-Z_sc <- sweep(Z, 2, Z_means, "-")
-Z_sc <- sweep(Z_sc, 2, Z_sd , "/")
+# Z_sc <- sweep(Z, 2, Z_means, "-")
+# Z_sc <- sweep(Z_sc, 2, Z_sd , "/")
+Z_sc <- scale(Z)
 
 b <- rnorm(M, 0, sqrt(h2/M))
 y <- Z_sc %*% b + rnorm(N, 0, sqrt(1 - h2))
@@ -46,19 +47,19 @@ y <- Z_sc %*% b + rnorm(N, 0, sqrt(1 - h2))
 # fit model on raw genotypes
 m1 <- biglmmz(y, Z = Z, scale = TRUE)
 m1$gamma
-#> [1] 0.7963861
+#> [1] 0.7953607
 
 # fit model on scaled genotypes and normalized by sqrt(M)
 Z_norm <- Z_sc / sqrt(M)
 m2 <- biglmmz(y, Z = Z_norm, scale = FALSE)
 m2$gamma
-#> [1] 0.7963861
+#> [1] 0.7963391
 
 # fit model on raw genotypes & avoid explicit scaling
 G <- as_FBM(Z) # input matrix of genotypes is FBM
-m3 <- biglmmg(y, G = as_FBM(Z))
+m3 <- biglmmg(y, G = G)
 m3$gamma 
-#> [1] 0.7974539
+#> [1] 0.7963391
 
 # Effective sample size (ESS) multipier
 K <- big_crossprodSelf(G, fun.scaling = big_scale_grm(M = M))[]
@@ -75,5 +76,5 @@ mult <- (1/s2) * (sum(1/(h2*lamdas + (1-h2))) + (N-M)/(1-h2)) / N
 res <- data.frame(N = N, M = M, h2_hat = h2, s2 = s2, mult = mult)
 res
 #>      N   M    h2_hat        s2     mult
-#> 1 1500 200 0.7974539 0.9743175 4.416904
+#> 1 1500 200 0.7963391 0.9689874 4.417056
 ```
