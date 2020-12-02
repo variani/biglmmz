@@ -7,4 +7,5 @@
 #' @docType package
 #'
 #' @import bigstatsr
-{}
+#' @importFrom stats optimize
+NULL

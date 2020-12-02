@@ -57,22 +57,6 @@ m2$gamma
 # fit model on raw genotypes & avoid explicit scaling
 G <- as_FBM(Z) # input matrix of genotypes is FBM
 m3 <- biglmmg(y, G = as_FBM(Z))
-#> function(X, ind.row = rows_along(X), ind.col = cols_along(X)) {
-#>     m <- length(ind.col)
-#>     if (center) {
-#>       tmp <- big_colstats(X, ind.row, ind.col)
-#>       means <- tmp$sum/length(ind.row)
-#>       sds <- if (scale)
-#>           sqrt(tmp$var)
-#>       else rep(1, m)
-#>     }
-#>     else {
-#>       means <- rep(0, m)
-#>       sds <- rep(1, m)
-#>     }
-#>     data.frame(center = means, scale = sqrt(M)*sds)
-#>   }
-#> <environment: 0x7fdb26f4c7d8>
 m3$gamma 
 #> [1] 0.7974539
 
