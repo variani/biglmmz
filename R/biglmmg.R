@@ -19,6 +19,7 @@ biglmmg <- function(y, X,
   G, cols = seq(ncol(G)), M = length(cols),
   K = NULL,
   REML = TRUE,
+  compute_mult = TRUE,
   verbose = 0)
 {
   if(verbose) { cat("biglmmg:\n") }
@@ -46,8 +47,8 @@ biglmmg <- function(y, X,
       K <- big_crossprodSelf(G, fun.scaling = f_sc, ind.col = cols)[]
   } else {
     if (verbose) cat(" - passed by argument K = crossprod(Z)\n")
-    stopifnot(ncol(K) == ncol(G))
-    stopifnot(nrow(K) == ncol(G))
+    stopifnot(ncol(K) == length(cols))
+    stopifnot(nrow(K) == length(cols))
   }
   
   ### optimize
@@ -66,7 +67,7 @@ biglmmg <- function(y, X,
   if (verbose) cat(" - estimate fixed effects\n")
   
   est <- biglr_fixef_grm(r2, y, X, 
-    G, cols = seq(ncol(G)), M = length(cols),
+    G, cols = cols, 
     f_sc = f_sc, stats = stats,
     K = K, REML = TRUE)
   coef <- data.frame(beta = est$b, se = sqrt(diag(est$bcov)))
@@ -79,9 +80,23 @@ biglmmg <- function(y, X,
   s2 <- est$s2
   comp <- s2 * c(gamma, 1 - gamma)
   
+  # trace factor
+  trace_factor <- mult <- NA
+  if(compute_mult) {
+    if (verbose) cat(" - multiplier\n")
+    lamdas <- eigen(K)$values
+
+    N <- length(y)
+    M <- nrow(K)
+
+    trace_factor <- (sum(1/(gamma*lamdas + (1-gamma))) + (N-M)/(1-gamma)) / N
+    mult <- (1/s2) * trace_factor
+  }
+
   ### return
   mod <- list(
     gamma = gamma, s2 = s2, comp = comp,
+    trace_factor = trace_factor, mult = mult,
     est = est, coef = coef,
     REML = REML)
 
@@ -197,8 +212,8 @@ biglr_fixef_grm <- function(
   if(is.null(K)) {
     K <- big_crossprodSelf(G, fun.scaling = f_sc, ind.col = cols)[]
   } else {
-    stopifnot(ncol(K) == ncol(G))
-    stopifnot(nrow(K) == ncol(G))
+    stopifnot(ncol(K) == length(cols))
+    stopifnot(nrow(K) == length(cols))
   }
 
   # need to compute `s2`
@@ -280,8 +295,8 @@ biglr_cprodMatInv_grm <- function(comp,
   if(is.null(K)) {
     K <- big_crossprodSelf(G, fun.scaling = f_sc, ind.col = cols)[]
   } else {
-    stopifnot(ncol(K) == ncol(G))
-    stopifnot(nrow(K) == ncol(G))
+    stopifnot(ncol(K) == length(cols))
+    stopifnot(nrow(K) == length(cols))
   }
   diag(K) <- diag(K) + comp[2] / comp[1]
 
