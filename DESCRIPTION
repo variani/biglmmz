@@ -13,7 +13,7 @@ Authors@R: c(
          role = "aut"),
   person("Hugues", "Aschard", 
          email = "hugues.aschard@pasteur.fr",
-         role = "ths"))
+         role = "aut"))
 License: GPL-3
 Encoding: UTF-8
 Imports:
@@ -25,6 +25,7 @@ Suggests:
     rmarkdown
 Collate:
     'package.R'
+    'data.R'
     'scale.R'
     'lowrank.R'
     'biglmmz.R'
