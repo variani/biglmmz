@@ -40,8 +40,10 @@
 
 
 <meta property="og:title" content="Attach example genotypes in the FBM format (bigstatsr). — attach_example200" />
-<meta property="og:description" content="The matrix of 200 genotypes coded as 0, 1 and 2 (columns)
-in 1,000 individuals (rows)." />
+<meta property="og:description" content="The function attaches simulated genotype matrix
+with 1,500 samples (rows) and 200 genotypes (colums).
+Genotypes are coded as 0, 1 and 2 (the number of alternatives alleles)
+and all have the minor allele frequency 0.5." />
 
 
 
@@ -122,8 +124,10 @@ in 1,000 individuals (rows)." />
     </div>
 
     <div class="ref-description">
-    <p>The matrix of 200 genotypes coded as 0, 1 and 2 (columns)
-in 1,000 individuals (rows).</p>
+    <p>The function attaches simulated genotype matrix
+with 1,500 samples (rows) and 200 genotypes (colums).
+Genotypes are coded as 0, 1 and 2 (the number of alternatives alleles)
+and all have the minor allele frequency 0.5.</p>
     </div>
 
     <pre class="usage"><span class='fu'>attach_example200</span><span class='op'>(</span><span class='op'>)</span></pre>
@@ -133,13 +137,13 @@ in 1,000 individuals (rows).</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>G</span> <span class='op'>&lt;-</span> <span class='fu'>attach_example200</span><span class='op'>(</span><span class='op'>)</span>
 <span class='va'>G</span>
-</div><div class='output co'>#&gt; A Filebacked Big Matrix of type 'unsigned char' with 1500 rows and 200 columns.</div><div class='input'><span class='va'>G</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>]</span>
+</div><div class='output co'>#&gt; A Filebacked Big Matrix of type 'code 256' with 1500 rows and 200 columns.</div><div class='input'><span class='va'>G</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>]</span>
 </div><div class='output co'>#&gt;      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
-#&gt; [1,]   01   01   00   01   00   01   01   01   02    00
-#&gt; [2,]   01   01   01   00   01   01   01   01   02    00
-#&gt; [3,]   01   01   02   01   02   02   01   00   01    01
-#&gt; [4,]   02   01   01   00   00   01   01   02   01    01
-#&gt; [5,]   02   01   02   01   01   01   01   01   02    02</div><div class='input'>
+#&gt; [1,]    1    1    0    1    1    2    2    0    2     1
+#&gt; [2,]    2    0    2    0    1    1    0    1    1     0
+#&gt; [3,]    2    0    2    1    0    1    1    1    1     2
+#&gt; [4,]    1    2    1    0    2    1    2    1    1     1
+#&gt; [5,]    1    2    1    1    1    2    0    2    1     0</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

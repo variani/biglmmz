@@ -18,63 +18,58 @@ devtools::install_github("variani/biglmmz")
 
 ## Example
 
-This is a sanity check to see whether `biglmmz` recovers the
+This is a sanity check to see whether `biglmmg` recovers the
 heritability of a quantitative trait on simulated data (1500
 individuals, 200 genetic markers, 80% heritability).
 
 ``` r
 library(biglmmz)
 
-N <- 1500; M <- 200; h2 <- 0.8
+## load simulated genotypes
+(G <- attach_example200())
+#> A Filebacked Big Matrix of type 'code 256' with 1500 rows and 200 columns.
+(N <- nrow(G))
+#> [1] 1500
+(M <- ncol(G))
+#> [1] 200
 
-# simulate genotypes
-set.seed(33)
-freqs <- rep(0.5, M) # allele freq. = 0.5
-Z <- sapply(freqs, function(f) rbinom(N, 2, f)) 
+G[1:5, 1:10]
+#>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+#> [1,]    1    1    0    1    1    2    2    0    2     1
+#> [2,]    2    0    2    0    1    1    0    1    1     0
+#> [3,]    2    0    2    1    0    1    1    1    1     2
+#> [4,]    1    2    1    0    2    1    2    1    1     1
+#> [5,]    1    2    1    1    1    2    0    2    1     0
 
-# scale genotypes
-# Z_means <- colMeans(Z, na.rm = TRUE)
-# Z_freq <- Z_means / 2  # Z_means = 2 * Z_freq
-# Z_sd <- sqrt(2 * Z_freq * (1 - Z_freq))
-
-# Z_sc <- sweep(Z, 2, Z_means, "-")
-# Z_sc <- sweep(Z_sc, 2, Z_sd , "/")
-Z_sc <- scale(Z)
-
+## simulate a phenotype with heritability h2 = 0.8 
+h2 <- 0.8
+# generate effect sizes under the polygenic model
 b <- rnorm(M, 0, sqrt(h2/M))
-y <- Z_sc %*% b + rnorm(N, 0, sqrt(1 - h2))
+# pre-compute mean and sd values for each genotype
+stats <- big_scale()(G) 
+# compute the matrix-vector product, Z b
+Zb <- big_prodVec(G, b, center = stats$center, scale = stats$scale)
+y <- Zb + rnorm(N, 0, sqrt(1 - h2))
 
-# fit model on raw genotypes
-m1 <- biglmmz(y, Z = Z, scale = TRUE)
-m1$gamma
-#> [1] 0.7953607
+## fit low-rank linear mixed model
+mod <- biglmmg(y, G = G)
+# check the estimate of h2
+mod$gamma 
+#> [1] 0.7897151
 
-# fit model on scaled genotypes and normalized by sqrt(M)
-Z_norm <- Z_sc / sqrt(M)
-m2 <- biglmmz(y, Z = Z_norm, scale = FALSE)
-m2$gamma
-#> [1] 0.7963391
-
-# fit model on raw genotypes & avoid explicit scaling
-G <- as_FBM(Z) # input matrix of genotypes is FBM
-m3 <- biglmmg(y, G = G)
-m3$gamma 
-#> [1] 0.7963391
-
-# Effective sample size (ESS) multipier
+## compute the effective sample size multipier
+# https://www.biorxiv.org/content/10.1101/2019.12.15.877217v2.full
+# EVD on K = Z'Z/M, where Z is a matrix of scaled genotypes G
 K <- big_crossprodSelf(G, fun.scaling = big_scale_grm(M = M))[]
-# K <- crossprod(Z_norm)
-
 lamdas <- eigen(K)$values
-
 # varianace components = s2 * c(h2, 1 - h2)
-h2 <- m3$gamma
-s2 <- m3$s2
-
+h2 <- mod$gamma
+s2 <- mod$s2
+# the multiplier
 mult <- (1/s2) * (sum(1/(h2*lamdas + (1-h2))) + (N-M)/(1-h2)) / N
 
-res <- data.frame(N = N, M = M, h2_hat = h2, s2 = s2, mult = mult)
-res
+## print results
+(res <- data.frame(N = N, M = M, h2_hat = h2, s2 = s2, mult = mult))
 #>      N   M    h2_hat        s2     mult
-#> 1 1500 200 0.7963391 0.9689874 4.417056
+#> 1 1500 200 0.7897151 0.8709995 4.760366
 ```

@@ -1,7 +1,9 @@
 #' Attach example genotypes in the FBM format (bigstatsr).
 #'
-#' The matrix of 200 genotypes coded as 0, 1 and 2 (columns)
-#' in 1,000 individuals (rows).
+#' The function attaches simulated genotype matrix
+#' with 1,500 samples (rows) and 200 genotypes (colums).
+#' Genotypes are coded as 0, 1 and 2 (the number of alternatives alleles)
+#' and all have the minor allele frequency 0.5.
 #'
 #' @examples
 #' G <- attach_example200()
