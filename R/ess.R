@@ -1,4 +1,4 @@
-#' Compute the effective size for a LMM.
+#' Compute the effective sample size for a LMM.
 #'
 #' @param G A FBM matrix of genotypes. Missing values are not handled.
 #' @param cols A vector of columns of G to be used in the model.
@@ -44,6 +44,7 @@ ess <- function(G, cols = seq(ncol(G)), M = length(cols), h2, s2 = 1.0)
   mult <- (1/s2) * (sum(1/(h2*lamdas + (1-h2))) + (N-M)/(1-h2)) / N
 
   ## return results
-  res <- data.frame(N = N, M = M, h2_hat = h2, s2 = s2, mult = mult)
+  res <- data.frame(N = N, M = M, h2 = h2, s2 = s2, mult = mult,
+    ESS = N*mult)
   res
 }

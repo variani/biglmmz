@@ -204,9 +204,10 @@ biglmmz <- function(y, X,
   h2 <- gamma
 
   trace_factor <- (sum(1/(h2*lamdas + (1-h2))) + (N-M)/(1-h2)) / N
+  mult <- (1/s2) * trace_factor
 
   mod$ess <- data.frame(N = N, M = M, s2 = s2, h2 = h2,
-    trace_factor = trace_factor)
+    trace_factor = trace_factor, mult = mult)
 
   ## clean
   if(!store_mat & copy_Z) {

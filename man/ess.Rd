@@ -2,7 +2,7 @@
 % Please edit documentation in R/ess.R
 \name{ess}
 \alias{ess}
-\title{Compute the effective size for a LMM.}
+\title{Compute the effective sample size for a LMM.}
 \usage{
 ess(G, cols = seq(ncol(G)), M = length(cols), h2, s2 = 1)
 }
@@ -25,7 +25,7 @@ By default, M = length(cols).}
 A data.frame of results.
 }
 \description{
-Compute the effective size for a LMM.
+Compute the effective sample size for a LMM.
 }
 \examples{
 G <- attach_example200()
