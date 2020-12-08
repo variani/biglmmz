@@ -27,7 +27,7 @@ for the intercept (one column).}
 \item{cols}{vector of columns in `G` to be used in the model.
 By default, all columns of `G` are used.}
 
-\item{M}{the scaling scalar for normalization of 
+\item{M}{the scaling scalar for normalization of
  genetic relationship matrix: GRM = Z'Z / M,
  where Z is a scaled matrix G.
 By defeault, `M = length(cols)`.}
@@ -37,7 +37,7 @@ By default, `K = NULL`, that means `K` is pre-computed inside the function.}
 
 \item{REML}{boolean specifying the likelihood function, REML or ML.}
 
-\item{compute_mult}{boolean for disabling the computation of 
+\item{compute_mult}{boolean for disabling the computation of
 the effective sample size, when only model fitting is needed.
 The default value is `TRUE`.}
 

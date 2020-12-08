@@ -22,7 +22,7 @@ biglr_det <- function(comp, Z, K = NULL, log = TRUE)
   k <- ncol(Z)
 
   #L <- diag(k) / comp[1] + big_crossprodSelf(Z)[] / comp[2]
-  #log_det_L <- determinant(L, log = TRUE)
+  #log_det_L <- determinant(L, logarithm = TRUE)
   #as.numeric(log_det_L$modulus) + n*log(comp[2]) + k*log(comp[1])
 
   # L = K / comp[2]  or K = comp[2] L
@@ -32,7 +32,7 @@ biglr_det <- function(comp, Z, K = NULL, log = TRUE)
     K <- crossprod(Z)
   }
   diag(K) <- diag(K) + comp[2] / comp[1]
-  log_det_K <- determinant(K, log = TRUE)
+  log_det_K <- determinant(K, logarithm = TRUE)
   as.numeric(log_det_K$modulus) + n*log(comp[2]) + k*log(comp[1]) - k*log(comp[2])
 }
 
@@ -51,7 +51,7 @@ biglr_det <- function(comp, Z, K = NULL, log = TRUE)
 #'
 #' @param comp two-element vector of variance components
 #' @param Z FBM of scaled genotypes
-#' @param X matrix of covariates
+#' @param Xmat matrix of covariates
 #' @param transpose (default FALSE) logical
 #'        whether return transposed product (X'Vi)' = Vi' X
 #'
@@ -116,8 +116,8 @@ biglr_cprodMatInv2 <- function(comp, Z, X, K = NULL, transpose = FALSE,
   }
   diag(K) <- diag(K) + comp[2] / comp[1]
 
-  part <- big_prodMat(Z, 
-    solve(K, big_cprodMat(Z, X, ind.col = cols, 
+  part <- big_prodMat(Z,
+    solve(K, big_cprodMat(Z, X, ind.col = cols,
       center = stats$center, scale = stats$scale)),
     ind.col = cols, center = stats$center, scale = stats$scale)
 
@@ -237,11 +237,11 @@ biglr_cprodMatInv_inv_zt <- function(comp, Zt, Xmat)
   # (2) P2 = P1' Li # p x k
   # Pt = X / comp[2] - Zt' P2' / (comp[2] * comp[2])
   # (3) P = Pt'
-  P1mat <- big_prodMat(Zt, X)
+  P1mat <- big_prodMat(Zt, Xmat)
   P2mat <- crossprod(P1mat, Li)
   P3mat <- big_cprodMat(Zt, t(P2mat))
 
-  Pt <- X / comp[2] - P3mat / (comp[2] * comp[2])
+  Pt <- Xmat / comp[2] - P3mat / (comp[2] * comp[2])
   t(Pt)
 }
 
@@ -279,10 +279,8 @@ biglr_cprodMatInv_evd <- function(comp, Z, Xmat)
 
   # v1
   #t(X) / comp[2] - X' W W' / (comp[2] * comp[2])
-  t(X) / comp[2] - crossprod(X, W) %*% t(W) / (comp[2] * comp[2])
+  t(Xmat) / comp[2] - crossprod(Xmat, W) %*% t(W) / (comp[2] * comp[2])
 
   # v2
-  #t(X / comp[2] - tcrossprod(W, crossprod(W, X))  / (comp[2] * comp[2]))
+  #t(Xmat / comp[2] - tcrossprod(W, crossprod(W, Xmat))  / (comp[2] * comp[2]))
 }
-
-

@@ -10,14 +10,14 @@
 #' @param G FBM matrix of genotypes. Missing values are not handled.
 #' @param cols vector of columns in `G` to be used in the model.
 #'   By default, all columns of `G` are used.
-#' @param M the scaling scalar for normalization of 
+#' @param M the scaling scalar for normalization of
 #'   genetic relationship matrix: GRM = Z'Z / M,
 #'   where Z is a scaled matrix G.
 #'  By defeault, `M = length(cols)`.
 #' @param K pre-computed cross-product Z'Z / M.
 #'  By default, `K = NULL`, that means `K` is pre-computed inside the function.
 #' @param REML boolean specifying the likelihood function, REML or ML.
-#' @param compute_mult boolean for disabling the computation of 
+#' @param compute_mult boolean for disabling the computation of
 #'   the effective sample size, when only model fitting is needed.
 #'   The default value is `TRUE`.
 #' @param verbose integer indicating the verbose level.
@@ -33,7 +33,7 @@
 #' var(y) = V = s2 * (h2*G + I)
 #'
 #' @export
-biglmmg <- function(y, X, 
+biglmmg <- function(y, X,
   G, cols = seq(ncol(G)), M = length(cols),
   K = NULL,
   REML = TRUE,
@@ -68,11 +68,11 @@ biglmmg <- function(y, X,
     stopifnot(ncol(K) == length(cols))
     stopifnot(nrow(K) == length(cols))
   }
-  
+
   ### optimize
   if (verbose) cat(" - optimize\n")
   out <- optimize(biglr_ll_grm, c(0, 1),
-    y = y, X = X, 
+    y = y, X = X,
     G = G, cols, f_sc = f_sc, stats = stats,
     K = K, REML = REML, verbose = verbose,
     maximum = TRUE)
@@ -83,21 +83,21 @@ biglmmg <- function(y, X,
 
   ### estimates of fixed effects
   if (verbose) cat(" - estimate fixed effects\n")
-  
-  est <- biglr_fixef_grm(r2, y, X, 
-    G, cols = cols, 
+
+  est <- biglr_fixef_grm(r2, y, X,
+    G, cols = cols,
     f_sc = f_sc, stats = stats,
     K = K, REML = TRUE)
   coef <- data.frame(beta = est$b, se = sqrt(diag(est$bcov)))
-  coef <- within(coef, z <- beta / se)
+  coef$z <- coef$beta / coef$se
 
   ### estimates of random effects
   if (verbose) cat(" - estimate random effects\n")
-  
+
   gamma <- r2
   s2 <- est$s2
   comp <- s2 * c(gamma, 1 - gamma)
-  
+
   # trace factor
   trace_factor <- mult <- NA
   if(compute_mult) {
@@ -127,7 +127,7 @@ biglmmg <- function(y, X,
 # Log-likelihood function for low-rank LMM
 #--------------------------------------------
 
-biglr_ll_grm <- function(gamma, y, Xmat, 
+biglr_ll_grm <- function(gamma, y, Xmat,
   G, cols = seq(ncol(G)), M = length(cols),
   f_sc = NULL, stats = NULL,
   K, REML = TRUE, verbose = 0)
@@ -147,7 +147,7 @@ biglr_ll_grm <- function(gamma, y, Xmat,
   if(!is.matrix(y)) {
     y <- matrix(y, ncol = 1)
   }
-  
+
   n <- length(y)
   k <- ncol(Xmat)
   nk <- `if`(REML, n - k, n)
@@ -158,7 +158,7 @@ biglr_ll_grm <- function(gamma, y, Xmat,
 
   # compute `Sigma_det_log` = det(V), where V = comp[1] ZZ' + comp[2] I
   diag(K) <- diag(K) + comp[2] / comp[1]
-  log_det_K <- determinant(K, log = TRUE)
+  log_det_K <- determinant(K, logarithm = TRUE)
   Sigma_det_log <- as.numeric(log_det_K$modulus) + n*log(comp[2]) +
     ng*log(comp[1] / comp[2])
 
@@ -167,9 +167,9 @@ biglr_ll_grm <- function(gamma, y, Xmat,
   ZtX <- big_cprodMat(G, Xmat, ind.col = cols, center = stats$center, scale = stats$scale)
   XVX <- (crossprod(Xmat) - crossprod(ZtX, solve(K, ZtX)))
 
-  # XVty <- crossprod(Xmat, y - Z %*% solve(K, crossprod(Z, y))) 
-  XVty <- crossprod(Xmat, y - 
-    big_prodMat(G, 
+  # XVty <- crossprod(Xmat, y - Z %*% solve(K, crossprod(Z, y)))
+  XVty <- crossprod(Xmat, y -
+    big_prodMat(G,
       solve(K, big_cprodMat(G, y, ind.col = cols, center = stats$center, scale = stats$scale)),
       ind.col = cols, center = stats$center, scale = stats$scale))
   b <- solve(XVX, XVty) # don't need to scale `XVX / comp[2]` and `XVty / comp[2]
@@ -178,18 +178,18 @@ biglr_ll_grm <- function(gamma, y, Xmat,
   Rmat <- y - Xmat %*% b # r <- as.numeric(Rmat)
   # ZtR <- crossprod(Z, Rmat)
   ZtR <- big_cprodMat(G, Rmat, ind.col = cols, center = stats$center, scale = stats$scale)
-  yPy <- crossprod(Rmat) - crossprod(ZtR, solve(K, ZtR)) # 
+  yPy <- crossprod(Rmat) - crossprod(ZtR, solve(K, ZtR)) #
   s2 <- yPy / comp[2] / nk
 
   # compute log-likelihood
   ll <- -0.5*nk*(log(2*pi*s2) + 1) - 0.5*Sigma_det_log
-  
+
   if(REML) {
-    # need to account for: `XVX` variable = XVX / comp[2] 
-    det <- determinant(XVX, log = TRUE)
+    # need to account for: `XVX` variable = XVX / comp[2]
+    det <- determinant(XVX, logarithm = TRUE)
     log_det_XVX <- as.numeric(det$modulus) - k*log(comp[2])
-    
-    #log_det_XX <- determinant(crossprod(X), log = TRUE)
+
+    #log_det_XX <- determinant(crossprod(X), logarithm = TRUE)
 
     ll <- ll - 0.5*as.numeric(log_det_XVX)
   }
@@ -206,7 +206,7 @@ biglr_ll_grm <- function(gamma, y, Xmat,
 #-------------------------------
 
 biglr_fixef_grm <- function(
-  gamma, y, Xmat, 
+  gamma, y, Xmat,
   G, cols = seq(ncol(G)), M = length(cols),
   f_sc = NULL, stats = NULL,
   s2, K = NULL, REML = TRUE)
@@ -221,7 +221,7 @@ biglr_fixef_grm <- function(
   } else {
     stopifnot(nrow(stats) == M)
   }
-  
+
   n <- length(y)
   k <- ncol(Xmat)
   nk <- `if`(REML, n - k, n)
@@ -238,40 +238,40 @@ biglr_fixef_grm <- function(
   # then we can get beta/se taking into account `s2`: V = s2 (gamma ZZ' + (1-gamma) I)
   if(missing_s2) {
     comp <- c(gamma, 1 - gamma)
-  
+
     # compute `XVX` & coeff. `b`, where `XVX` = X' Vi X
     # XVt <- biglr_cprodMatInv(comp, Z, Xmat, K, transpose = TRUE) # Vi' X
-    XVt <- biglr_cprodMatInv_grm(comp, 
+    XVt <- biglr_cprodMatInv_grm(comp,
       G, cols = cols, f_sc = f_sc, stats = stats,
       X = Xmat, K = K, transpose = TRUE) # Vi' X
-    XVX <- crossprod(XVt, Xmat) 
+    XVX <- crossprod(XVt, Xmat)
     b <- solve(XVX, crossprod(XVt, y)) # (XVX)_inv XV y
-  
+
     Rmat <- y - Xmat %*% b # r <- as.numeric(Rmat)
     # rVt <- biglr_cprodMatInv(comp, Z, Rmat, K, transpose = TRUE) # Vi' r
-    rVt <- biglr_cprodMatInv_grm(comp, 
+    rVt <- biglr_cprodMatInv_grm(comp,
       G, cols = cols, f_sc = f_sc, stats = stats,
       X = Rmat, K = K, transpose = TRUE) # Vi' r
-    yPy <- crossprod(rVt, Rmat) 
+    yPy <- crossprod(rVt, Rmat)
     s2 <- as.numeric(yPy / nk)
   }
-  
+
   # update `comp` from unscaled to scaled by `s2`
   comp <- s2 * c(gamma, 1 - gamma)
-  
-  XVt <- biglr_cprodMatInv_grm(comp, 
+
+  XVt <- biglr_cprodMatInv_grm(comp,
     G, cols = cols, f_sc = f_sc, stats = stats,
     X = Xmat, K = K, transpose = TRUE) # Vi' X
-  XVX <- crossprod(XVt, Xmat) 
+  XVX <- crossprod(XVt, Xmat)
   b <- solve(XVX, crossprod(XVt, y)) # (XVX)_inv XV y
   bcov <- solve(XVX)
-  
+
   ### return
   out <- list(s2 = s2, b = as.numeric(b), bcov = bcov)
 }
 
 #--------------------
-# Scaling function 
+# Scaling function
 #--------------------
 big_scale_grm <- function(center = TRUE, scale = TRUE, M)
 {
@@ -296,7 +296,7 @@ big_scale_grm <- function(center = TRUE, scale = TRUE, M)
 # Linear Algebra functions
 #---------------------------
 
-biglr_cprodMatInv_grm <- function(comp, 
+biglr_cprodMatInv_grm <- function(comp,
   G, cols = seq(ncol(G)), M = length(cols),
   f_sc = NULL, stats = NULL,
   X, K = NULL, transpose = FALSE)
@@ -318,8 +318,8 @@ biglr_cprodMatInv_grm <- function(comp,
   }
   diag(K) <- diag(K) + comp[2] / comp[1]
 
-  part <- big_prodMat(G, 
-    solve(K, big_cprodMat(G, X, ind.col = cols, 
+  part <- big_prodMat(G,
+    solve(K, big_cprodMat(G, X, ind.col = cols,
       center = stats$center, scale = stats$scale)),
     ind.col = cols, center = stats$center, scale = stats$scale)
 

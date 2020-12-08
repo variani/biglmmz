@@ -11,10 +11,10 @@ biglr_cprodMatInv(comp, Z, Xmat, K = NULL, transpose = FALSE)
 
 \item{Z}{FBM of scaled genotypes}
 
+\item{Xmat}{matrix of covariates}
+
 \item{transpose}{(default FALSE) logical
 whether return transposed product (X'Vi)' = Vi' X}
-
-\item{X}{matrix of covariates}
 }
 \value{
 a product X'Vi
