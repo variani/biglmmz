@@ -24,12 +24,12 @@ for the intercept (one column).}
 
 \item{G}{A FBM matrix of genotypes. Missing values are not handled.}
 
-\item{cols}{vector of columns in G to be used in the model.
+\item{cols}{A vector of columns of G to be used in the model.
 By default, all columns of G are used.}
 
 \item{M}{A scalar for normalization of the
  genetic relationship matrix: GRM = Z'Z / M,
- where Z is a scaled matrix G.
+ where Z is a matrix of standartized genotypes.
 By defeault, M = length(cols).}
 
 \item{K}{A matrix with the pre-computed cross-product Z'Z / M.

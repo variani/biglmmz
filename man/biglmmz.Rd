@@ -28,18 +28,21 @@ biglmmz(
 for the intercept (one column).}
 
 \item{Z}{A matrix of genotypes, that can be raw genotypes or normalized genotypes for the GRM.
-Missing values can be imputed by genotypes means.
-The matrix can be either the standard R matrix or FBM.}
+Missing values can be imputed by genotype means.
+The matrix can be either the standard R matrix or FBM.
+In the process of model fitting, the matrix Z is copied to a FBM matrix
+(that requires additional resources for storage on disk).}
 
 \item{M}{A scalar for normalization of the
 genetic relationship matrix: GRM = Z'Z / M,
 where Z is a matrix of standartized genotypes.
 If M is missing, M = length(cols).}
 
-\item{cols}{vector of columns in Z to be used in the model.
+\item{cols}{A vector of columns of Z to be used in the model.
 By default, all columns of Z are used.}
 
-\item{backingfile}{The path to a file where the matrix of standartized genotypes is to be stored.
+\item{backingfile}{The path to a file where the matrix of standartized genotypes 
+(internal to the function) is to be stored.
 By default, backingfile = tempfile().}
 
 \item{copy_Z}{(advanced) A boolean indicating whether the input matrix Z

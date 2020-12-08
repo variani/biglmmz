@@ -15,15 +15,17 @@ knitr::opts_chunk$set(
 
 # biglmmz
 
-[![travis-ci build status](https://travis-ci.org/variani/biglmmz.svg?branch=master)](https://travis-ci.org/variani/biglmmz)
+<!-- badges: start -->
+[![R build status](https://github.com/privefl/biglmmz/workflows/R-CMD-check/badge.svg)](https://github.com/privefl/biglmmz/actions)
+<!-- badges: end -->
 
 Low-rank linear mixed models (LMMs) powered by [bigstatsr](https://github.com/privefl/bigstatsr).
 
 ## Installation
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("variani/biglmmz")
+# install.packages("remotes")
+remotes::install_github("variani/biglmmz")
 ```
 
 ## Example

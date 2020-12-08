@@ -10,8 +10,8 @@ attach_example200()
 An object of class FBM.
 }
 \description{
-The function loads a pre-computed matrix of simulated genotypes
-with 1,500 samples (rows) and 200 genetic variants (colums).
+The function attaches simulated genotype matrix
+with 1,500 samples (rows) and 200 genetic variants (columns).
 Genotypes are coded as 0, 1 and 2 (the number of alternative alleles).
 All variants have the minor allele frequency fixed to 0.5.
 }
