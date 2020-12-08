@@ -35,6 +35,7 @@ Collate:
     'lowrank.R'
     'biglmmz.R'
     'biglmmg.R'
+    'ess.R'
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 Language: en-US

@@ -3,5 +3,6 @@
 export(attach_example200)
 export(biglmmg)
 export(biglmmz)
+export(ess)
 import(bigstatsr)
 importFrom(stats,optimize)

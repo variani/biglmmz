@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • biglmmz</title>
+<title>Compute the effective size for a LMM. — ess • biglmmz</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,8 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Compute the effective size for a LMM. — ess" />
+<meta property="og:description" content="Compute the effective size for a LMM." />
 
 
 
@@ -58,7 +59,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -112,66 +113,70 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Compute the effective size for a LMM.</h1>
+    
+    <div class="hidden name"><code>ess.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Compute the effective size for a LMM.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>ess</span><span class='op'>(</span><span class='va'>G</span>, cols <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span><span class='op'>(</span><span class='va'>G</span><span class='op'>)</span><span class='op'>)</span>, M <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>cols</span><span class='op'>)</span>, <span class='va'>h2</span>, s2 <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="attach_example200.html">attach_example200()</a></code> </p>
-        </td>
-        <td><p>Attach an example matrix of genotypes in the FBM format (bigstatsr).</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="biglmmg.html">biglmmg()</a></code> </p>
-        </td>
-        <td><p>Fit a low-rank LMM without explicit scaling of the genotype matrix.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="biglmmz.html">biglmmz()</a></code> </p>
-        </td>
-        <td><p>(depreciated) Fit a low-rank LMM with normalized genotypes.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="biglmmzPackage.html">biglmmzPackage</a></code> </p>
-        </td>
-        <td><p>Package biglmmz.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ess.html">ess()</a></code> </p>
-        </td>
-        <td><p>Compute the effective size for a LMM.</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>G</th>
+      <td><p>A FBM matrix of genotypes. Missing values are not handled.</p></td>
+    </tr>
+    <tr>
+      <th>cols</th>
+      <td><p>A vector of columns of G to be used in the model.
+By default, all columns of G are used.</p></td>
+    </tr>
+    <tr>
+      <th>M</th>
+      <td><p>A scalar for normalization of the
+ genetic relationship matrix: GRM = Z'Z / M,
+ where Z is a matrix of standardized genotypes.
+By default, M = length(cols).</p></td>
+    </tr>
+    <tr>
+      <th>h2</th>
+      <td><p>The estimated heritability by LMM.</p></td>
+    </tr>
+    <tr>
+      <th>s2</th>
+      <td><p>The estimated scaling constant for the variance components in LMM.</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A data.frame of results.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='va'>G</span> <span class='op'>&lt;-</span> <span class='fu'><a href='attach_example200.html'>attach_example200</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>G</span>
+</div><div class='output co'>#&gt; A Filebacked Big Matrix of type 'code 256' with 1500 rows and 200 columns.</div><div class='input'><span class='va'>G</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>]</span>
+</div><div class='output co'>#&gt;      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+#&gt; [1,]    1    1    0    1    1    2    2    0    2     1
+#&gt; [2,]    2    0    2    0    1    1    0    1    1     0
+#&gt; [3,]    2    0    2    1    0    1    1    1    1     2
+#&gt; [4,]    1    2    1    0    2    1    2    1    1     1
+#&gt; [5,]    1    2    1    1    1    2    0    2    1     0</div><div class='input'>
+<span class='fu'>ess</span><span class='op'>(</span><span class='va'>G</span>, h2 <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;      N   M h2_hat s2     mult
+#&gt; 1 1500 200    0.5  1 1.768361</div><div class='input'>
+<span class='fu'>ess</span><span class='op'>(</span><span class='va'>G</span>, h2 <span class='op'>=</span> <span class='fl'>0.8</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;      N   M h2_hat s2     mult
+#&gt; 1 1500 200    0.8  1 4.357965</div><div class='input'>
+</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
