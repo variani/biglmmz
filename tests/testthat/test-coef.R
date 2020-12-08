@@ -1,7 +1,7 @@
 context("coef")
 
 test_that("biglmmz: coef", {
-  if(requireNamespace("lme4qtl")) {
+  if(requireNamespace("lme4qtl", quitely = TRUE)) {
     N <- 200; M <- 50; h2 <- 0.8
   
     Zg <- sapply(1:M, function(i) rbinom(N, 2, 0.5)) # allele freq. = 0.5
