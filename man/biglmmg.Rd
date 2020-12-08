@@ -29,8 +29,8 @@ By default, all columns of G are used.}
 
 \item{M}{A scalar for normalization of the
  genetic relationship matrix: GRM = Z'Z / M,
- where Z is a matrix of standartized genotypes.
-By defeault, M = length(cols).}
+ where Z is a matrix of standardized genotypes.
+By default, M = length(cols).}
 
 \item{K}{A matrix with the pre-computed cross-product Z'Z / M.
 By default, K = NULL, that means K is pre-computed inside the function.}

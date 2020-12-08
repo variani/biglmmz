@@ -35,13 +35,13 @@ In the process of model fitting, the matrix Z is copied to a FBM matrix
 
 \item{M}{A scalar for normalization of the
 genetic relationship matrix: GRM = Z'Z / M,
-where Z is a matrix of standartized genotypes.
+where Z is a matrix of standardized genotypes.
 If M is missing, M = length(cols).}
 
 \item{cols}{A vector of columns of Z to be used in the model.
 By default, all columns of Z are used.}
 
-\item{backingfile}{The path to a file where the matrix of standartized genotypes 
+\item{backingfile}{The path to a file where the matrix of standardized genotypes 
 (internal to the function) is to be stored.
 By default, backingfile = tempfile().}
 
@@ -65,7 +65,7 @@ By default, K = NULL, that means K is pre-computed inside the function.}
 \item{verbose}{The verbose level. The default value is 0 (verbose).}
 }
 \description{
-This function requires more resources to store the matrix of standartized genotypes
+This function requires more resources to store the matrix of standardized genotypes
 in comparison to the function biglmmg.
 The two functions biglmmz and biglmmg perform the same model fitting,
 but the function biglmmg is recommended.

@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">biglmmz</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -95,7 +95,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/biglmm.html">Fitting low-rank mixed models in bigstatr</a>
+      <a href="../articles/biglmm.html">Fitting low-rank mixed models in bigstatsr</a>
     </li>
   </ul>
 </li>
@@ -154,15 +154,15 @@ for the intercept (one column).</p></td>
     </tr>
     <tr>
       <th>cols</th>
-      <td><p>vector of columns in G to be used in the model.
+      <td><p>A vector of columns of G to be used in the model.
 By default, all columns of G are used.</p></td>
     </tr>
     <tr>
       <th>M</th>
       <td><p>A scalar for normalization of the
  genetic relationship matrix: GRM = Z'Z / M,
- where Z is a scaled matrix G.
-By defeault, M = length(cols).</p></td>
+ where Z is a matrix of standardized genotypes.
+By default, M = length(cols).</p></td>
     </tr>
     <tr>
       <th>K</th>

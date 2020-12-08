@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="(depreciated) Fit a low-rank LMM with normalized genotypes. — biglmmz" />
-<meta property="og:description" content="This function requires more resources to store the matrix of standartized genotypes
+<meta property="og:description" content="This function requires more resources to store the matrix of standardized genotypes
 in comparison to the function biglmmg.
 The two functions biglmmz and biglmmg perform the same model fitting,
 but the function biglmmg is recommended." />
@@ -75,7 +75,7 @@ but the function biglmmg is recommended." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">biglmmz</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -98,7 +98,7 @@ but the function biglmmg is recommended." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/biglmm.html">Fitting low-rank mixed models in bigstatr</a>
+      <a href="../articles/biglmm.html">Fitting low-rank mixed models in bigstatsr</a>
     </li>
   </ul>
 </li>
@@ -124,7 +124,7 @@ but the function biglmmg is recommended." />
     </div>
 
     <div class="ref-description">
-    <p>This function requires more resources to store the matrix of standartized genotypes
+    <p>This function requires more resources to store the matrix of standardized genotypes
 in comparison to the function biglmmg.
 The two functions biglmmz and biglmmg perform the same model fitting,
 but the function biglmmg is recommended.</p>
@@ -162,24 +162,27 @@ for the intercept (one column).</p></td>
     <tr>
       <th>Z</th>
       <td><p>A matrix of genotypes, that can be raw genotypes or normalized genotypes for the GRM.
-Missing values can be imputed by genotypes means.
-The matrix can be either the standard R matrix or FBM.</p></td>
+Missing values can be imputed by genotype means.
+The matrix can be either the standard R matrix or FBM.
+In the process of model fitting, the matrix Z is copied to a FBM matrix
+(that requires additional resources for storage on disk).</p></td>
     </tr>
     <tr>
       <th>M</th>
       <td><p>A scalar for normalization of the
 genetic relationship matrix: GRM = Z'Z / M,
-where Z is a matrix of standartized genotypes.
+where Z is a matrix of standardized genotypes.
 If M is missing, M = length(cols).</p></td>
     </tr>
     <tr>
       <th>cols</th>
-      <td><p>vector of columns in Z to be used in the model.
+      <td><p>A vector of columns of Z to be used in the model.
 By default, all columns of Z are used.</p></td>
     </tr>
     <tr>
       <th>backingfile</th>
-      <td><p>The path to a file where the matrix of standartized genotypes is to be stored.
+      <td><p>The path to a file where the matrix of standardized genotypes 
+(internal to the function) is to be stored.
 By default, backingfile = tempfile().</p></td>
     </tr>
     <tr>
