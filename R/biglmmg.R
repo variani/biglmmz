@@ -13,7 +13,7 @@
 #' @param M the scaling scalar for normalization of
 #'   genetic relationship matrix: GRM = Z'Z / M,
 #'   where Z is a scaled matrix G.
-#'  By defeault, `M = length(cols)`.
+#'  By default, `M = length(cols)`.
 #' @param K pre-computed cross-product Z'Z / M.
 #'  By default, `K = NULL`, that means `K` is pre-computed inside the function.
 #' @param REML boolean specifying the likelihood function, REML or ML.

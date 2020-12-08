@@ -22,6 +22,7 @@ Imports:
     bigstatsr (>= 0.8.4),
     matrixStats
 Suggests:
+    spelling,
     testthat,
     knitr,
     rmarkdown,
@@ -36,3 +37,4 @@ Collate:
     'biglmmg.R'
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
+Language: en-US
