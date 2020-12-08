@@ -48,7 +48,7 @@ The default value is 0 (verbose).}
 Fit a low-rank LMM without explicit scaling of the genotype matrix.
 }
 \details{
-The linear mixed model (LMM) is 
+The linear mixed model (LMM) is:
 y_i =  X_i b + u_i + e_i, where
 
 u ~ N(0, s2*h2*G) and e ~ N(0, s2 I)
@@ -57,7 +57,11 @@ var(y) = V = s2 * (h2*G + I)
 }
 \examples{
 G <- attach_example200() # load simulated genotypes
+G
+G[1:5, 1:10]
+
 y <- rnorm(nrow(G)) # generate a random phenotype
+head(y)
 
 mod <- biglmmg(y, G = G)
 mod$gamma # estimated h2

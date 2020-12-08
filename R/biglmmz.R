@@ -2,17 +2,57 @@
 # Main function biglmmz
 #------------------------
 
-#' Low-rank LMM with a single random effect and residual random effect.
+#' (depreciated) Fit a low-rank LMM with normalized genotypes.
 #'
-#' Model definition:
-#' y_i =  X_i beta + u_i + e_i
+#' This function requires more resources to store the matrix of standartized genotypes
+#' in comparison to the function biglmmg.
+#' The two functions biglmmz and biglmmg perform the same model fitting,
+#' but the function biglmmg is recommended.
 #'
-#' u ~ N(0, s2*h2*G)
-#' e ~ N(0, s2 I)
+#' @param y A vector of trait values (quantitative trait).
+#' @param X A matrix of covariates. The default value is matrix of ones
+#'   for the intercept (one column).
+#' @param Z A matrix of genotypes, that can be raw genotypes or normalized genotypes for the GRM.
+#'   Missing values can be imputed by genotypes means.
+#'   The matrix can be either the standard R matrix or FBM.
+#' @param cols vector of columns in Z to be used in the model.
+#'   By default, all columns of Z are used.
+#' @param M A scalar for normalization of the
+#'   genetic relationship matrix: GRM = Z'Z / M,
+#'   where Z is a matrix of standartized genotypes.
+#'   If M is missing, M = length(cols).
+#' @param backingfile The path to a file where the matrix of standartized genotypes is to be stored.
+#'   By default, backingfile = tempfile(). 
+#' @param copy_Z (advanced) A boolean indicating whether the input matrix Z
+#'   is ready for analysis or need to be copied.
+#'   By default, copy_Z = TRUE.
+#' @param K A matrix with the pre-computed cross-product Z'Z / M.
+#'  By default, K = NULL, that means K is pre-computed inside the function.
+#' @param scale Scale genotypes in Z? By default, scale = FALSE.
+#' @param impute Impute genotypes in Z by genotype means? By default, impute = FALSE.
+#' @param REML A boolean specifying the likelihood function, REML or ML.
+#' @param compute_K (advanced) Compute K?  The default value is TRUE.
+#' @param store_mat (advanced) Store matrices? The default value is FALSE.
+#' @param verbose The verbose level. The default value is 0 (verbose).
+#'
+#' @details
+#' The linear mixed model (LMM) is:
+#' y_i =  X_i b + u_i + e_i, where
+#'
+#' u ~ N(0, s2*h2*G) and e ~ N(0, s2 I)
 #'
 #' var(y) = V = s2 * (h2*G + I)
 #'
-#' @import bigstatsr
+#' @examples
+#' G <- attach_example200() # load simulated genotypes
+#' G
+#' G[1:5, 1:10]
+#'
+#' y <- rnorm(nrow(G)) # generate a random phenotype
+#' head(y)
+#'
+#' mod <- biglmmz(y, Z = G, scale = TRUE)
+#' mod$gamma # estimated h2
 #'
 #' @export
 biglmmz <- function(y, X, 

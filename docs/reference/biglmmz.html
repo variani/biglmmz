@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Low-rank LMM with a single random effect and residual random effect. — biglmmz • biglmmz</title>
+<title>(depreciated) Fit a low-rank LMM with normalized genotypes. — biglmmz • biglmmz</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,11 @@
 
 
 
-<meta property="og:title" content="Low-rank LMM with a single random effect and residual random effect. — biglmmz" />
-<meta property="og:description" content="Model definition:
-y_i =  X_i beta + u_i + e_i" />
+<meta property="og:title" content="(depreciated) Fit a low-rank LMM with normalized genotypes. — biglmmz" />
+<meta property="og:description" content="This function requires more resources to store the matrix of standartized genotypes
+in comparison to the function biglmmg.
+The two functions biglmmz and biglmmg perform the same model fitting,
+but the function biglmmg is recommended." />
 
 
 
@@ -116,14 +118,16 @@ y_i =  X_i beta + u_i + e_i" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Low-rank LMM with a single random effect and residual random effect.</h1>
+    <h1>(depreciated) Fit a low-rank LMM with normalized genotypes.</h1>
     
     <div class="hidden name"><code>biglmmz.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Model definition:
-y_i =  X_i beta + u_i + e_i</p>
+    <p>This function requires more resources to store the matrix of standartized genotypes
+in comparison to the function biglmmg.
+The two functions biglmmz and biglmmg perform the same model fitting,
+but the function biglmmg is recommended.</p>
     </div>
 
     <pre class="usage"><span class='fu'>biglmmz</span><span class='op'>(</span>
@@ -143,13 +147,102 @@ y_i =  X_i beta + u_i + e_i</p>
   verbose <span class='op'>=</span> <span class='fl'>0</span>
 <span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>y</th>
+      <td><p>A vector of trait values (quantitative trait).</p></td>
+    </tr>
+    <tr>
+      <th>X</th>
+      <td><p>A matrix of covariates. The default value is matrix of ones
+for the intercept (one column).</p></td>
+    </tr>
+    <tr>
+      <th>Z</th>
+      <td><p>A matrix of genotypes, that can be raw genotypes or normalized genotypes for the GRM.
+Missing values can be imputed by genotypes means.
+The matrix can be either the standard R matrix or FBM.</p></td>
+    </tr>
+    <tr>
+      <th>M</th>
+      <td><p>A scalar for normalization of the
+genetic relationship matrix: GRM = Z'Z / M,
+where Z is a matrix of standartized genotypes.
+If M is missing, M = length(cols).</p></td>
+    </tr>
+    <tr>
+      <th>cols</th>
+      <td><p>vector of columns in Z to be used in the model.
+By default, all columns of Z are used.</p></td>
+    </tr>
+    <tr>
+      <th>backingfile</th>
+      <td><p>The path to a file where the matrix of standartized genotypes is to be stored.
+By default, backingfile = tempfile().</p></td>
+    </tr>
+    <tr>
+      <th>copy_Z</th>
+      <td><p>(advanced) A boolean indicating whether the input matrix Z
+is ready for analysis or need to be copied.
+By default, copy_Z = TRUE.</p></td>
+    </tr>
+    <tr>
+      <th>K</th>
+      <td><p>A matrix with the pre-computed cross-product Z'Z / M.
+By default, K = NULL, that means K is pre-computed inside the function.</p></td>
+    </tr>
+    <tr>
+      <th>scale</th>
+      <td><p>Scale genotypes in Z? By default, scale = FALSE.</p></td>
+    </tr>
+    <tr>
+      <th>impute</th>
+      <td><p>Impute genotypes in Z by genotype means? By default, impute = FALSE.</p></td>
+    </tr>
+    <tr>
+      <th>REML</th>
+      <td><p>A boolean specifying the likelihood function, REML or ML.</p></td>
+    </tr>
+    <tr>
+      <th>compute_K</th>
+      <td><p>(advanced) Compute K?  The default value is TRUE.</p></td>
+    </tr>
+    <tr>
+      <th>store_mat</th>
+      <td><p>(advanced) Store matrices? The default value is FALSE.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>The verbose level. The default value is 0 (verbose).</p></td>
+    </tr>
+    </table>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>u ~ N(0, s2*h2*G)
-e ~ N(0, s2 I)</p>
+    <p>The linear mixed model (LMM) is:
+y_i =  X_i b + u_i + e_i, where</p>
+<p>u ~ N(0, s2*h2*G) and e ~ N(0, s2 I)</p>
 <p>var(y) = V = s2 * (h2*G + I)</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='va'>G</span> <span class='op'>&lt;-</span> <span class='fu'><a href='attach_example200.html'>attach_example200</a></span><span class='op'>(</span><span class='op'>)</span> <span class='co'># load simulated genotypes</span>
+<span class='va'>G</span>
+</div><div class='output co'>#&gt; A Filebacked Big Matrix of type 'code 256' with 1500 rows and 200 columns.</div><div class='input'><span class='va'>G</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>]</span>
+</div><div class='output co'>#&gt;      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+#&gt; [1,]    1    1    0    1    1    2    2    0    2     1
+#&gt; [2,]    2    0    2    0    1    1    0    1    1     0
+#&gt; [3,]    2    0    2    1    0    1    1    1    1     2
+#&gt; [4,]    1    2    1    0    2    1    2    1    1     1
+#&gt; [5,]    1    2    1    1    1    2    0    2    1     0</div><div class='input'>
+<span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>G</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># generate a random phenotype</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>y</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] -0.25993715 -1.55323598 -0.04525281  0.67735566  0.53612501  0.61687349</div><div class='input'>
+<span class='va'>mod</span> <span class='op'>&lt;-</span> <span class='fu'>biglmmz</span><span class='op'>(</span><span class='va'>y</span>, Z <span class='op'>=</span> <span class='va'>G</span>, scale <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>mod</span><span class='op'>$</span><span class='va'>gamma</span> <span class='co'># estimated h2</span>
+</div><div class='output co'>#&gt; [1] 6.610696e-05</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
