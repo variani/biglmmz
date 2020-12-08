@@ -2,7 +2,7 @@
 % Please edit documentation in R/biglmmg.R
 \name{biglmmg}
 \alias{biglmmg}
-\title{Low-rank LMM with a single random effect and residual random effect.}
+\title{Fit a low-rank LMM without explicit scaling of genotype matrix.}
 \usage{
 biglmmg(
   y,
@@ -16,12 +16,40 @@ biglmmg(
   verbose = 0
 )
 }
+\arguments{
+\item{y}{vector of trait values (quantitative trait).}
+
+\item{X}{matrix of covariates. The default value is matrix of ones
+for the intercept (one column).}
+
+\item{G}{FBM matrix of genotypes. Missing values are not handled.}
+
+\item{cols}{vector of columns in `G` to be used in the model.
+By default, all columns of `G` are used.}
+
+\item{M}{the scaling scalar for normalization of 
+ genetic relationship matrix: GRM = Z'Z / M,
+ where Z is a scaled matrix G.
+By defeault, `M = length(cols)`.}
+
+\item{K}{pre-computed cross-product Z'Z / M.
+By default, `K = NULL`, that means `K` is pre-computed inside the function.}
+
+\item{REML}{boolean specifying the likelihood function, REML or ML.}
+
+\item{compute_mult}{boolean for disabling the computation of 
+the effective sample size, when only model fitting is needed.
+The default value is `TRUE`.}
+
+\item{verbose}{integer indicating the verbose level.
+The default value is 0 (verbose).}
+}
 \description{
-A version of biglmmz function without having to explicitly scale Z.
+Fit a low-rank LMM without explicit scaling of genotype matrix.
 }
 \details{
-Model definition:
-y_i =  X_i beta + u_i + e_i
+Model:
+y_i =  X_i b + u_i + e_i
 
 u ~ N(0, s2*h2*G)
 e ~ N(0, s2 I)

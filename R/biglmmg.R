@@ -2,12 +2,30 @@
 # Main function biglmmg
 #------------------------
 
-#' Low-rank LMM with a single random effect and residual random effect.
+#' Fit a low-rank LMM without explicit scaling of genotype matrix.
 #'
-#' A version of biglmmz function without having to explicitly scale Z.
+#' @param y vector of trait values (quantitative trait).
+#' @param X matrix of covariates. The default value is matrix of ones
+#'   for the intercept (one column).
+#' @param G FBM matrix of genotypes. Missing values are not handled.
+#' @param cols vector of columns in `G` to be used in the model.
+#'   By default, all columns of `G` are used.
+#' @param M the scaling scalar for normalization of 
+#'   genetic relationship matrix: GRM = Z'Z / M,
+#'   where Z is a scaled matrix G.
+#'  By defeault, `M = length(cols)`.
+#' @param K pre-computed cross-product Z'Z / M.
+#'  By default, `K = NULL`, that means `K` is pre-computed inside the function.
+#' @param REML boolean specifying the likelihood function, REML or ML.
+#' @param compute_mult boolean for disabling the computation of 
+#'   the effective sample size, when only model fitting is needed.
+#'   The default value is `TRUE`.
+#' @param verbose integer indicating the verbose level.
+#'   The default value is 0 (verbose).
 #'
-#' Model definition:
-#' y_i =  X_i beta + u_i + e_i
+#' @details
+#' Model:
+#' y_i =  X_i b + u_i + e_i
 #'
 #' u ~ N(0, s2*h2*G)
 #' e ~ N(0, s2 I)
