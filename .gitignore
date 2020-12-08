@@ -5,3 +5,5 @@ docs
 *.rds
 
 .nfs*
+.Rproj.user
+biglmmz.Rproj

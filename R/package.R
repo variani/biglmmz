@@ -1,6 +1,6 @@
 #' Package biglmmz.
 #'
-#' Low-rank LMM in bistatsr
+#' Low-rank LMM in bigstatsr.
 #'
 #' @rdname biglmmzPackage
 #' @name biglmmzPackage

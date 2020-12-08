@@ -1,10 +1,10 @@
 ---
-title: "Fitting low-rank mixed models in bigstatr"
+title: "Fitting low-rank mixed models in bigstatsr"
 author: "Andrey Ziyatdinov"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Fitting low-rank mixed models in bigstatr}
+  %\VignetteIndexEntry{Fitting low-rank mixed models in bigstatsr}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

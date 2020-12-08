@@ -5,5 +5,5 @@
 \alias{biglmmzPackage}
 \title{Package biglmmz.}
 \description{
-Low-rank LMM in bistatsr
+Low-rank LMM in bigstatsr.
 }

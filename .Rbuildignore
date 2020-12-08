@@ -6,3 +6,6 @@ vignettes/
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.github$
