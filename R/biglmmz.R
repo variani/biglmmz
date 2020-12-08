@@ -13,15 +13,18 @@
 #' @param X A matrix of covariates. The default value is matrix of ones
 #'   for the intercept (one column).
 #' @param Z A matrix of genotypes, that can be raw genotypes or normalized genotypes for the GRM.
-#'   Missing values can be imputed by genotypes means.
+#'   Missing values can be imputed by genotype means.
 #'   The matrix can be either the standard R matrix or FBM.
-#' @param cols vector of columns in Z to be used in the model.
+#'   In the process of model fitting, the matrix Z is copied to a FBM matrix
+#'   (that requires additional resources for storage on disk).
+#' @param cols A vector of columns of Z to be used in the model.
 #'   By default, all columns of Z are used.
 #' @param M A scalar for normalization of the
 #'   genetic relationship matrix: GRM = Z'Z / M,
 #'   where Z is a matrix of standartized genotypes.
 #'   If M is missing, M = length(cols).
-#' @param backingfile The path to a file where the matrix of standartized genotypes is to be stored.
+#' @param backingfile The path to a file where the matrix of standartized genotypes 
+#'   (internal to the function) is to be stored.
 #'   By default, backingfile = tempfile(). 
 #' @param copy_Z (advanced) A boolean indicating whether the input matrix Z
 #'   is ready for analysis or need to be copied.

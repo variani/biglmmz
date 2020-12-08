@@ -8,11 +8,11 @@
 #' @param X A matrix of covariates. The default value is matrix of ones
 #'   for the intercept (one column).
 #' @param G A FBM matrix of genotypes. Missing values are not handled.
-#' @param cols vector of columns in G to be used in the model.
+#' @param cols A vector of columns of G to be used in the model.
 #'   By default, all columns of G are used.
 #' @param M A scalar for normalization of the
 #'   genetic relationship matrix: GRM = Z'Z / M,
-#'   where Z is a scaled matrix G.
+#'   where Z is a matrix of standartized genotypes.
 #'  By defeault, M = length(cols).
 #' @param K A matrix with the pre-computed cross-product Z'Z / M.
 #'  By default, K = NULL, that means K is pre-computed inside the function.
