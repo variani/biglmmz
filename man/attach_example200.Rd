@@ -2,18 +2,18 @@
 % Please edit documentation in R/data.R
 \name{attach_example200}
 \alias{attach_example200}
-\title{Attach example genotypes in the FBM format (bigstatsr).}
+\title{Attach an example matrix of genotypes in the FBM format (bigstatsr).}
 \usage{
 attach_example200()
 }
 \value{
-object of class FBM.
+An object of class FBM.
 }
 \description{
-The function attaches simulated genotype matrix
+The function loads a pre-computed matrix of simulated genotypes
 with 1,500 samples (rows) and 200 genetic variants (colums).
 Genotypes are coded as 0, 1 and 2 (the number of alternative alleles).
-All variants have the minor allele frequency 0.5.
+All variants have the minor allele frequency fixed to 0.5.
 }
 \examples{
 G <- attach_example200()

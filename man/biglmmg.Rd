@@ -2,7 +2,7 @@
 % Please edit documentation in R/biglmmg.R
 \name{biglmmg}
 \alias{biglmmg}
-\title{Fit a low-rank LMM without explicit scaling of genotype matrix.}
+\title{Fit a low-rank LMM without explicit scaling of the genotype matrix.}
 \usage{
 biglmmg(
   y,
@@ -17,42 +17,49 @@ biglmmg(
 )
 }
 \arguments{
-\item{y}{vector of trait values (quantitative trait).}
+\item{y}{A vector of trait values (quantitative trait).}
 
-\item{X}{matrix of covariates. The default value is matrix of ones
+\item{X}{A matrix of covariates. The default value is matrix of ones
 for the intercept (one column).}
 
-\item{G}{FBM matrix of genotypes. Missing values are not handled.}
+\item{G}{A FBM matrix of genotypes. Missing values are not handled.}
 
-\item{cols}{vector of columns in `G` to be used in the model.
-By default, all columns of `G` are used.}
+\item{cols}{vector of columns in G to be used in the model.
+By default, all columns of G are used.}
 
-\item{M}{the scaling scalar for normalization of 
+\item{M}{A scalar for normalization of the
  genetic relationship matrix: GRM = Z'Z / M,
  where Z is a scaled matrix G.
-By defeault, `M = length(cols)`.}
+By defeault, M = length(cols).}
 
-\item{K}{pre-computed cross-product Z'Z / M.
-By default, `K = NULL`, that means `K` is pre-computed inside the function.}
+\item{K}{A matrix with the pre-computed cross-product Z'Z / M.
+By default, K = NULL, that means K is pre-computed inside the function.}
 
-\item{REML}{boolean specifying the likelihood function, REML or ML.}
+\item{REML}{A boolean specifying the likelihood function, REML or ML.}
 
-\item{compute_mult}{boolean for disabling the computation of 
+\item{compute_mult}{A boolean enabling the computation of 
 the effective sample size, when only model fitting is needed.
-The default value is `TRUE`.}
+The default value is TRUE.}
 
-\item{verbose}{integer indicating the verbose level.
+\item{verbose}{The verbose level.
 The default value is 0 (verbose).}
 }
 \description{
-Fit a low-rank LMM without explicit scaling of genotype matrix.
+Fit a low-rank LMM without explicit scaling of the genotype matrix.
 }
 \details{
-Model:
-y_i =  X_i b + u_i + e_i
+The linear mixed model (LMM) is 
+y_i =  X_i b + u_i + e_i, where
 
-u ~ N(0, s2*h2*G)
-e ~ N(0, s2 I)
+u ~ N(0, s2*h2*G) and e ~ N(0, s2 I)
 
 var(y) = V = s2 * (h2*G + I)
+}
+\examples{
+G <- attach_example200() # load simulated genotypes
+y <- rnorm(nrow(G)) # generate a random phenotype
+
+mod <- biglmmg(y, G = G)
+mod$gamma # estimated h2
+
 }

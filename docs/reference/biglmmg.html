@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Fit a low-rank LMM without explicit scaling of genotype matrix. — biglmmg • biglmmz</title>
+<title>Fit a low-rank LMM without explicit scaling of the genotype matrix. — biglmmg • biglmmz</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Fit a low-rank LMM without explicit scaling of genotype matrix. — biglmmg" />
-<meta property="og:description" content="Fit a low-rank LMM without explicit scaling of genotype matrix." />
+<meta property="og:title" content="Fit a low-rank LMM without explicit scaling of the genotype matrix. — biglmmg" />
+<meta property="og:description" content="Fit a low-rank LMM without explicit scaling of the genotype matrix." />
 
 
 
@@ -115,13 +115,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Fit a low-rank LMM without explicit scaling of genotype matrix.</h1>
+    <h1>Fit a low-rank LMM without explicit scaling of the genotype matrix.</h1>
     
     <div class="hidden name"><code>biglmmg.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Fit a low-rank LMM without explicit scaling of genotype matrix.</p>
+    <p>Fit a low-rank LMM without explicit scaling of the genotype matrix.</p>
     </div>
 
     <pre class="usage"><span class='fu'>biglmmg</span><span class='op'>(</span>
@@ -141,59 +141,66 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>y</th>
-      <td><p>vector of trait values (quantitative trait).</p></td>
+      <td><p>A vector of trait values (quantitative trait).</p></td>
     </tr>
     <tr>
       <th>X</th>
-      <td><p>matrix of covariates. The default value is matrix of ones
+      <td><p>A matrix of covariates. The default value is matrix of ones
 for the intercept (one column).</p></td>
     </tr>
     <tr>
       <th>G</th>
-      <td><p>FBM matrix of genotypes. Missing values are not handled.</p></td>
+      <td><p>A FBM matrix of genotypes. Missing values are not handled.</p></td>
     </tr>
     <tr>
       <th>cols</th>
-      <td><p>vector of columns in `G` to be used in the model.
-By default, all columns of `G` are used.</p></td>
+      <td><p>vector of columns in G to be used in the model.
+By default, all columns of G are used.</p></td>
     </tr>
     <tr>
       <th>M</th>
-      <td><p>the scaling scalar for normalization of 
+      <td><p>A scalar for normalization of the
  genetic relationship matrix: GRM = Z'Z / M,
  where Z is a scaled matrix G.
-By defeault, `M = length(cols)`.</p></td>
+By defeault, M = length(cols).</p></td>
     </tr>
     <tr>
       <th>K</th>
-      <td><p>pre-computed cross-product Z'Z / M.
-By default, `K = NULL`, that means `K` is pre-computed inside the function.</p></td>
+      <td><p>A matrix with the pre-computed cross-product Z'Z / M.
+By default, K = NULL, that means K is pre-computed inside the function.</p></td>
     </tr>
     <tr>
       <th>REML</th>
-      <td><p>boolean specifying the likelihood function, REML or ML.</p></td>
+      <td><p>A boolean specifying the likelihood function, REML or ML.</p></td>
     </tr>
     <tr>
       <th>compute_mult</th>
-      <td><p>boolean for disabling the computation of 
+      <td><p>A boolean enabling the computation of 
 the effective sample size, when only model fitting is needed.
-The default value is `TRUE`.</p></td>
+The default value is TRUE.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
-      <td><p>integer indicating the verbose level.
+      <td><p>The verbose level.
 The default value is 0 (verbose).</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Model:
-y_i =  X_i b + u_i + e_i</p>
-<p>u ~ N(0, s2*h2*G)
-e ~ N(0, s2 I)</p>
+    <p>The linear mixed model (LMM) is 
+y_i =  X_i b + u_i + e_i, where</p>
+<p>u ~ N(0, s2*h2*G) and e ~ N(0, s2 I)</p>
 <p>var(y) = V = s2 * (h2*G + I)</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='va'>G</span> <span class='op'>&lt;-</span> <span class='fu'><a href='attach_example200.html'>attach_example200</a></span><span class='op'>(</span><span class='op'>)</span> <span class='co'># load simulated genotypes</span>
+<span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>G</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># generate a random phenotype</span>
+
+<span class='va'>mod</span> <span class='op'>&lt;-</span> <span class='fu'>biglmmg</span><span class='op'>(</span><span class='va'>y</span>, G <span class='op'>=</span> <span class='va'>G</span><span class='op'>)</span>
+<span class='va'>mod</span><span class='op'>$</span><span class='va'>gamma</span> <span class='co'># estimated h2</span>
+</div><div class='output co'>#&gt; [1] 0.0151284</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

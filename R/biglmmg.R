@@ -2,35 +2,41 @@
 # Main function biglmmg
 #------------------------
 
-#' Fit a low-rank LMM without explicit scaling of genotype matrix.
+#' Fit a low-rank LMM without explicit scaling of the genotype matrix.
 #'
-#' @param y vector of trait values (quantitative trait).
-#' @param X matrix of covariates. The default value is matrix of ones
+#' @param y A vector of trait values (quantitative trait).
+#' @param X A matrix of covariates. The default value is matrix of ones
 #'   for the intercept (one column).
-#' @param G FBM matrix of genotypes. Missing values are not handled.
-#' @param cols vector of columns in `G` to be used in the model.
-#'   By default, all columns of `G` are used.
-#' @param M the scaling scalar for normalization of 
+#' @param G A FBM matrix of genotypes. Missing values are not handled.
+#' @param cols vector of columns in G to be used in the model.
+#'   By default, all columns of G are used.
+#' @param M A scalar for normalization of the
 #'   genetic relationship matrix: GRM = Z'Z / M,
 #'   where Z is a scaled matrix G.
-#'  By defeault, `M = length(cols)`.
-#' @param K pre-computed cross-product Z'Z / M.
-#'  By default, `K = NULL`, that means `K` is pre-computed inside the function.
-#' @param REML boolean specifying the likelihood function, REML or ML.
-#' @param compute_mult boolean for disabling the computation of 
+#'  By defeault, M = length(cols).
+#' @param K A matrix with the pre-computed cross-product Z'Z / M.
+#'  By default, K = NULL, that means K is pre-computed inside the function.
+#' @param REML A boolean specifying the likelihood function, REML or ML.
+#' @param compute_mult A boolean enabling the computation of 
 #'   the effective sample size, when only model fitting is needed.
-#'   The default value is `TRUE`.
-#' @param verbose integer indicating the verbose level.
+#'   The default value is TRUE.
+#' @param verbose The verbose level.
 #'   The default value is 0 (verbose).
 #'
 #' @details
-#' Model:
-#' y_i =  X_i b + u_i + e_i
+#' The linear mixed model (LMM) is 
+#' y_i =  X_i b + u_i + e_i, where
 #'
-#' u ~ N(0, s2*h2*G)
-#' e ~ N(0, s2 I)
+#' u ~ N(0, s2*h2*G) and e ~ N(0, s2 I)
 #'
 #' var(y) = V = s2 * (h2*G + I)
+#'
+#' @examples
+#' G <- attach_example200() # load simulated genotypes
+#' y <- rnorm(nrow(G)) # generate a random phenotype
+#'
+#' mod <- biglmmg(y, G = G)
+#' mod$gamma # estimated h2
 #'
 #' @export
 biglmmg <- function(y, X, 

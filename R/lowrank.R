@@ -4,16 +4,16 @@
 #-----------------------
 
 # Computes det(V)
-#' - V = comp[1]*G + comp[2]*diag(N)
-#' - G = tcrossprod(Z)
-#' - G is a low-rank matrix: ncol(Z) << nrow(Z)
-#'
-#' (1) \url{https://en.wikipedia.org/wiki/Matrix_determinant_lemma}
-#' |A + UCV| = |L| |C| |A|
-#' where L = C- + VA-U
-#' (2) For our specific case:
-#' |D + ZHZ'| = |L| |H| |D|
-#' D = diag(comp1), H = diag(comp2), L = (H- + Z'D-Z)
+# - V = comp[1]*G + comp[2]*diag(N)
+# - G = tcrossprod(Z)
+# - G is a low-rank matrix: ncol(Z) << nrow(Z)
+#
+# (1) \url{https://en.wikipedia.org/wiki/Matrix_determinant_lemma}
+# |A + UCV| = |L| |C| |A|
+# where L = C- + VA-U
+# (2) For our specific case:
+# |D + ZHZ'| = |L| |H| |D|
+# D = diag(comp1), H = diag(comp2), L = (H- + Z'D-Z)
 biglr_det <- function(comp, Z, K = NULL, log = TRUE)
 {
   stopifnot(log)
@@ -41,21 +41,21 @@ biglr_det <- function(comp, Z, K = NULL, log = TRUE)
 # cprodMatInv = X'Vi
 #-----------------------
 
-#' Computes X'Vi
-#'
-#' Computes X'Vi in a optimized way given that
-#'  - Vi is the inverse of matrix V
-#'  - V = comp[1]*G + comp[2]*diag(N)
-#'  - G = tcrossprod(Z)
-#'  - G is a low-rank matrix: ncol(Z) << nrow(Z)
-#'
-#' @param comp two-element vector of variance components
-#' @param Z FBM of scaled genotypes
-#' @param X matrix of covariates
-#' @param transpose (default FALSE) logical
-#'        whether return transposed product (X'Vi)' = Vi' X
-#'
-#' @return a product X'Vi
+# Computes X'Vi
+#
+# Computes X'Vi in a optimized way given that
+#  - Vi is the inverse of matrix V
+#  - V = comp[1]*G + comp[2]*diag(N)
+#  - G = tcrossprod(Z)
+#  - G is a low-rank matrix: ncol(Z) << nrow(Z)
+#
+# @param comp two-element vector of variance components
+# @param Z FBM of scaled genotypes
+# @param X matrix of covariates
+# @param transpose (default FALSE) logical
+#        whether return transposed product (X'Vi)' = Vi' X
+#
+# @return a product X'Vi
 biglr_cprodMatInv <- function(comp, Z, Xmat, K = NULL, transpose = FALSE)
 {
   # n <- nrow(Z)
@@ -128,13 +128,13 @@ biglr_cprodMatInv2 <- function(comp, Z, X, K = NULL, transpose = FALSE,
   }
 }
 
-#' Computes X'Vi in an efficient way in a low-rank scenario (see below)
-#'
-#'  - Vi is the inverse of matrix V
-#'  - V = comp[1]*G + comp[2]*diag(N)
-#'  - G = tcrossprod(Z)
-#' A low-rank scenario: G is a low-rank matrix,
-#' i.e. ncol(Z) << nrow(Z)
+# Computes X'Vi in an efficient way in a low-rank scenario (see below)
+#
+#  - Vi is the inverse of matrix V
+#  - V = comp[1]*G + comp[2]*diag(N)
+#  - G = tcrossprod(Z)
+# A low-rank scenario: G is a low-rank matrix,
+# i.e. ncol(Z) << nrow(Z)
 lr_cprodMatInv <- function(comp, Z, X)
 {
   n <- nrow(Z)
@@ -144,13 +144,13 @@ lr_cprodMatInv <- function(comp, Z, X)
   t(X) / comp[2] - crossprod(X, Z) %*% tcrossprod(Li, Z) / (comp[2] * comp[2])
 }
 
-#' Computes X'Vi in a naive way
-#'
-#'  - Vi is the inverse of matrix V
-#'  - V = comp[1]*G + comp[2]*diag(N)
-#'  - G = tcrossprod(Z)
-#' The focal scenario: G is a low-rank matrix,
-#' i.e. ncol(Z) << nrow(Z)
+# Computes X'Vi in a naive way
+#
+#  - Vi is the inverse of matrix V
+#  - V = comp[1]*G + comp[2]*diag(N)
+#  - G = tcrossprod(Z)
+# The focal scenario: G is a low-rank matrix,
+# i.e. ncol(Z) << nrow(Z)
 naive_cprodMatInv <- function(comp, Z, X)
 {
   n <- nrow(Z)
