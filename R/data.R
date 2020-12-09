@@ -1,6 +1,6 @@
-#' Load simulated genotypes in the FBM format (bigstatsr).
+#' Load simulated genotypes in the FBM format.
 #'
-#' The function attaches simulated genotype matrix
+#' The function loads the matrix of simulated genotypes
 #' with 1,500 samples (rows) and 200 genetic variants (columns).
 #' Genotypes are coded as 0, 1 and 2 (the number of alternative alleles).
 #' All variants have the minor allele frequency fixed to 0.5.

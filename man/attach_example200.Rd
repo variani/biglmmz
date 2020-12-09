@@ -2,7 +2,7 @@
 % Please edit documentation in R/data.R
 \name{attach_example200}
 \alias{attach_example200}
-\title{Load simulated genotypes in the FBM format (bigstatsr).}
+\title{Load simulated genotypes in the FBM format.}
 \usage{
 attach_example200()
 }
@@ -10,7 +10,7 @@ attach_example200()
 An object of class FBM.
 }
 \description{
-The function attaches simulated genotype matrix
+The function loads the matrix of simulated genotypes
 with 1,500 samples (rows) and 200 genetic variants (columns).
 Genotypes are coded as 0, 1 and 2 (the number of alternative alleles).
 All variants have the minor allele frequency fixed to 0.5.
