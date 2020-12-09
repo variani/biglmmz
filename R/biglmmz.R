@@ -2,12 +2,13 @@
 # Main function biglmmz
 #------------------------
 
-#' (depreciated) Fit a low-rank LMM with normalized genotypes.
+#' (depreciated) Fit a low-rank LMM on normalized genotypes.
 #'
-#' This function requires more resources to store the matrix of standardized genotypes
+#' This function requires more resources 
+#' to store the matrix of standardized genotypes
 #' in comparison to the function biglmmg.
 #' The two functions biglmmz and biglmmg perform the same model fitting,
-#' but the function biglmmg is recommended.
+#' but biglmmg is recommended.
 #'
 #' @param y A vector of trait values (quantitative trait).
 #' @param X A matrix of covariates. The default value is matrix of ones

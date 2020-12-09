@@ -7,8 +7,8 @@
 #'   genetic relationship matrix: GRM = Z'Z / M,
 #'   where Z is a matrix of standardized genotypes.
 #'  By default, M = length(cols).
-#' @param h2 The estimated heritability by LMM.
-#' @param s2 The estimated scaling constant for the variance components in LMM.
+#' @param h2 The estimated heritability in the LMM.
+#' @param s2 The estimated scaling constant for the variance components in the LMM.
 #' @return A data.frame of results.
 #'
 #' @examples

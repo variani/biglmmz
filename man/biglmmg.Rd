@@ -2,7 +2,7 @@
 % Please edit documentation in R/biglmmg.R
 \name{biglmmg}
 \alias{biglmmg}
-\title{Fit a low-rank LMM without explicit scaling of the genotype matrix.}
+\title{Fit a low-rank LMM on raw genotypes (no explicit scaling).}
 \usage{
 biglmmg(
   y,
@@ -45,7 +45,7 @@ The default value is TRUE.}
 The default value is 0 (verbose).}
 }
 \description{
-Fit a low-rank LMM without explicit scaling of the genotype matrix.
+Fit a low-rank LMM on raw genotypes (no explicit scaling).
 }
 \details{
 The linear mixed model (LMM) is:

@@ -2,7 +2,7 @@
 % Please edit documentation in R/data.R
 \name{attach_example200}
 \alias{attach_example200}
-\title{Attach an example matrix of genotypes in the FBM format (bigstatsr).}
+\title{Load simulated genotypes in the FBM format (bigstatsr).}
 \usage{
 attach_example200()
 }

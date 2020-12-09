@@ -2,7 +2,7 @@
 % Please edit documentation in R/biglmmz.R
 \name{biglmmz}
 \alias{biglmmz}
-\title{(depreciated) Fit a low-rank LMM with normalized genotypes.}
+\title{(depreciated) Fit a low-rank LMM on normalized genotypes.}
 \usage{
 biglmmz(
   y,
@@ -65,10 +65,11 @@ By default, K = NULL, that means K is pre-computed inside the function.}
 \item{verbose}{The verbose level. The default value is 0 (verbose).}
 }
 \description{
-This function requires more resources to store the matrix of standardized genotypes
+This function requires more resources 
+to store the matrix of standardized genotypes
 in comparison to the function biglmmg.
 The two functions biglmmz and biglmmg perform the same model fitting,
-but the function biglmmg is recommended.
+but biglmmg is recommended.
 }
 \details{
 The linear mixed model (LMM) is:

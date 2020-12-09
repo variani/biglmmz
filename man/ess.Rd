@@ -17,9 +17,9 @@ By default, all columns of G are used.}
  where Z is a matrix of standardized genotypes.
 By default, M = length(cols).}
 
-\item{h2}{The estimated heritability by LMM.}
+\item{h2}{The estimated heritability in the LMM.}
 
-\item{s2}{The estimated scaling constant for the variance components in LMM.}
+\item{s2}{The estimated scaling constant for the variance components in the LMM.}
 }
 \value{
 A data.frame of results.

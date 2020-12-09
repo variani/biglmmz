@@ -2,7 +2,7 @@
 # Main function biglmmg
 #------------------------
 
-#' Fit a low-rank LMM without explicit scaling of the genotype matrix.
+#' Fit a low-rank LMM on raw genotypes (no explicit scaling).
 #'
 #' @param y A vector of trait values (quantitative trait).
 #' @param X A matrix of covariates. The default value is matrix of ones

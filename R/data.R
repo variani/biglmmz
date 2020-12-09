@@ -1,4 +1,4 @@
-#' Attach an example matrix of genotypes in the FBM format (bigstatsr).
+#' Load simulated genotypes in the FBM format (bigstatsr).
 #'
 #' The function attaches simulated genotype matrix
 #' with 1,500 samples (rows) and 200 genetic variants (columns).
