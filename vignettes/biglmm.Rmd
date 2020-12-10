@@ -1,10 +1,10 @@
 ---
-title: "Fitting low-rank mixed models in bigstatsr"
+title: "Low-rank mixed models"
 author: "Andrey Ziyatdinov"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Fitting low-rank mixed models in bigstatsr}
+  %\VignetteIndexEntry{Low-rank mixed models}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -19,14 +19,14 @@ knitr::opts_chunk$set(
 # About
 
 ```{r inc}
-library(devtools)
-load_all("~/git/hemostat/ukbpower/biglmm")
+library(biglmmz)
+library(bigstatsr)
 ```
 
-# Simulated data
+# Estimating heritability
 
-The model expected to recover the true heritability of 0.8
-given the sample size of 1,500 individuals and 200 causal genetic markers.
+The linear mixed model (LMM) is expected to recover the true heritability 
+of 0.8 given the sample size of 1,500 individuals and 200 causal genetic variants.
 
 ```{r recover_h2}
 N <- 1500; M <- 200; h2 <- 0.8
@@ -43,6 +43,18 @@ Z <- sweep(Z, 2, col_sd , "/")
 b <- rnorm(M, 0, sqrt(h2/M))
 y <- Z %*% b + rnorm(N, 0, sqrt(1 - h2))
   
-mod1 <- biglmm(y, Z = Zg, scale = TRUE)
-mod1$gamma
+# biglmmg accepts genotypes in the FBM format
+G <- as_FBM(Zg)
+mod <- biglmmg(y, G = G)
+mod$gamma
+```
+
+# Caclulating the effective sample size (ESS)
+
+```{r ess}
+# varianace components = s2 * c(h2, 1 - h2)
+h2 <- mod$gamma
+s2 <- mod$s2
+
+ess(G, h2 = h2, s2 = s2)
 ```

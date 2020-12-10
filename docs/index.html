@@ -56,7 +56,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/biglmm.html">Fitting low-rank mixed models in bigstatsr</a>
+      <a href="articles/biglmm.html">Low-rank mixed models</a>
     </li>
   </ul>
 </li>
@@ -76,19 +76,20 @@
 <div id="biglmmz" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#biglmmz" class="anchor"></a>biglmmz</h1></div>
+<!-- badges: start -->
 
 <p>Low-rank linear mixed models (LMMs) powered by <a href="https://github.com/privefl/bigstatsr">bigstatsr</a>.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"variani/biglmmz"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"variani/biglmmz"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="example" class="section level2">
+<div id="examples" class="section level2">
 <h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
-<p>This is a sanity check to see whether <code>biglmmg</code> recovers the heritability of a quantitative trait on simulated data (1500 individuals, 200 genetic markers, 80% heritability).</p>
+<a href="#examples" class="anchor"></a>Examples</h2>
+<p>We first check whether the low-rank linear mixed model (LMM) recovers the heritability of a quantitative trait on simulated data (1500 individuals, 200 genetic markers, 80% heritability).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">biglmmz</span><span class="op">)</span>
 
@@ -122,23 +123,31 @@
 <span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/biglmmg.html">biglmmg</a></span><span class="op">(</span><span class="va">y</span>, G <span class="op">=</span> <span class="va">G</span><span class="op">)</span>
 <span class="co"># check the estimate of h2</span>
 <span class="va">mod</span><span class="op">$</span><span class="va">gamma</span> 
-<span class="co">#&gt; [1] 0.7897151</span>
-
-<span class="co">## compute the effective sample size multipier</span>
-<span class="co"># https://www.biorxiv.org/content/10.1101/2019.12.15.877217v2.full</span>
-<span class="co"># EVD on K = Z'Z/M, where Z is a matrix of scaled genotypes G</span>
-<span class="va">K</span> <span class="op">&lt;-</span> <span class="fu">big_crossprodSelf</span><span class="op">(</span><span class="va">G</span>, fun.scaling <span class="op">=</span> <span class="fu">big_scale_grm</span><span class="op">(</span>M <span class="op">=</span> <span class="va">M</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="op">]</span>
-<span class="va">lamdas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/eigen.html">eigen</a></span><span class="op">(</span><span class="va">K</span><span class="op">)</span><span class="op">$</span><span class="va">values</span>
-<span class="co"># varianace components = s2 * c(h2, 1 - h2)</span>
+<span class="co">#&gt; [1] 0.7638058</span></code></pre></div>
+<p>We next compute the effective sample size (ESS) multipier for the LMM. See <a href="https://www.biorxiv.org/content/10.1101/2019.12.15.877217v2.full">pre-print</a>.</p>
+<p>Calling the <a href="https://variani.github.io/biglmmz/reference/ess.html">ess</a> function:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># varianace components = s2 * c(h2, 1 - h2)</span>
 <span class="va">h2</span> <span class="op">&lt;-</span> <span class="va">mod</span><span class="op">$</span><span class="va">gamma</span>
 <span class="va">s2</span> <span class="op">&lt;-</span> <span class="va">mod</span><span class="op">$</span><span class="va">s2</span>
+
+<span class="fu"><a href="reference/ess.html">ess</a></span><span class="op">(</span><span class="va">G</span>, h2 <span class="op">=</span> <span class="va">h2</span>, s2 <span class="op">=</span> <span class="va">s2</span><span class="op">)</span>
+<span class="co">#&gt;      N   M        h2        s2     mult      ESS</span>
+<span class="co">#&gt; 1 1500 200 0.7638058 0.8744358 4.225399 6338.099</span></code></pre></div>
+<p>Calculating the ESS manually:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># EVD on K = Z'Z/M, where Z is a matrix of scaled genotypes G</span>
+<span class="va">K</span> <span class="op">&lt;-</span> <span class="fu">big_crossprodSelf</span><span class="op">(</span><span class="va">G</span>, fun.scaling <span class="op">=</span> <span class="fu">big_scale_grm</span><span class="op">(</span>M <span class="op">=</span> <span class="va">M</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="op">]</span>
+<span class="co"># EVD of K</span>
+<span class="va">lamdas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/eigen.html">eigen</a></span><span class="op">(</span><span class="va">K</span><span class="op">)</span><span class="op">$</span><span class="va">values</span>
+
 <span class="co"># the multiplier</span>
 <span class="va">mult</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="va">s2</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="op">(</span><span class="va">h2</span><span class="op">*</span><span class="va">lamdas</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">h2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="va">N</span><span class="op">-</span><span class="va">M</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">h2</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="va">N</span>
 
 <span class="co">## print results</span>
 <span class="op">(</span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>N <span class="op">=</span> <span class="va">N</span>, M <span class="op">=</span> <span class="va">M</span>, h2_hat <span class="op">=</span> <span class="va">h2</span>, s2 <span class="op">=</span> <span class="va">s2</span>, mult <span class="op">=</span> <span class="va">mult</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;      N   M    h2_hat        s2     mult</span>
-<span class="co">#&gt; 1 1500 200 0.7897151 0.8709995 4.760366</span></code></pre></div>
+<span class="co">#&gt; 1 1500 200 0.7638058 0.8744358 4.225399</span></code></pre></div>
 </div>
 </div>
   </div>
@@ -164,7 +173,7 @@
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://travis-ci.org/variani/biglmmz"><img src="https://travis-ci.org/variani/biglmmz.svg?branch=master" alt="travis-ci build status"></a></li>
+<li><a href="https://github.com/privefl/biglmmz/actions"><img src="https://github.com/privefl/biglmmz/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
 </ul>
 </div>
 </div>
