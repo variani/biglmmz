@@ -114,7 +114,7 @@
 <span class="va">G</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://privefl.github.io/bigstatsr/reference/FBM-class.html">as_FBM</a></span><span class="op">(</span><span class="va">Zg</span><span class="op">)</span>
 <span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/biglmmg.html">biglmmg</a></span><span class="op">(</span><span class="va">y</span>, G <span class="op">=</span> <span class="va">G</span><span class="op">)</span>
 <span class="va">mod</span><span class="op">$</span><span class="va">gamma</span>
-<span class="co">#&gt; [1] 0.7716731</span></code></pre></div>
+<span class="co">#&gt; [1] 0.8228469</span></code></pre></div>
 </div>
 <div id="calculating-the-effective-sample-size-ess" class="section level1">
 <h1 class="hasAnchor">
@@ -125,8 +125,8 @@
 <span class="va">s2</span> <span class="op">&lt;-</span> <span class="va">mod</span><span class="op">$</span><span class="va">s2</span>
 
 <span class="fu"><a href="../reference/ess.html">ess</a></span><span class="op">(</span><span class="va">G</span>, h2 <span class="op">=</span> <span class="va">h2</span>, s2 <span class="op">=</span> <span class="va">s2</span><span class="op">)</span>
-<span class="co">#&gt;      N   M        h2        s2     mult      ESS</span>
-<span class="co">#&gt; 1 1500 200 0.7716731 0.8606433 4.439718 6659.577</span></code></pre></div>
+<span class="co">#&gt;      N   M        h2       s2     mult      ESS</span>
+<span class="co">#&gt; 1 1500 200 0.8228469 1.105326 4.447775 6671.663</span></code></pre></div>
 </div>
   </div>
 

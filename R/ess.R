@@ -36,7 +36,7 @@ ess <- function(G, cols = seq(ncol(G)), M = length(cols), h2, s2 = 1.0)
   K <- big_crossprodSelf(G, fun.scaling = f_sc, ind.col = cols)[]
 
   # EVD of K
-  lamdas <- eigen(K)$values
+  lamdas <- eigen(K, only.values = TRUE)$values
 
   # the multiplier
   #  - varianace components = s2 * c(h2, 1 - h2)
