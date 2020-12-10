@@ -91,9 +91,9 @@
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">biglmmz</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://privefl.github.io/bigstatsr/">bigstatsr</a></span><span class="op">)</span></code></pre></div>
 </div>
-<div id="estimating-heritability" class="section level1">
+<div id="estimating-the-heritability" class="section level1">
 <h1 class="hasAnchor">
-<a href="#estimating-heritability" class="anchor"></a>Estimating heritability</h1>
+<a href="#estimating-the-heritability" class="anchor"></a>Estimating the heritability</h1>
 <p>The linear mixed model (LMM) is expected to recover the true heritability of 0.8 given the sample size of 1,500 individuals and 200 causal genetic variants.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">N</span> <span class="op">&lt;-</span> <span class="fl">1500</span>; <span class="va">M</span> <span class="op">&lt;-</span> <span class="fl">200</span>; <span class="va">h2</span> <span class="op">&lt;-</span> <span class="fl">0.8</span>
@@ -114,7 +114,7 @@
 <span class="va">G</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://privefl.github.io/bigstatsr/reference/FBM-class.html">as_FBM</a></span><span class="op">(</span><span class="va">Zg</span><span class="op">)</span>
 <span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/biglmmg.html">biglmmg</a></span><span class="op">(</span><span class="va">y</span>, G <span class="op">=</span> <span class="va">G</span><span class="op">)</span>
 <span class="va">mod</span><span class="op">$</span><span class="va">gamma</span>
-<span class="co">#&gt; [1] 0.7769973</span></code></pre></div>
+<span class="co">#&gt; [1] 0.7756924</span></code></pre></div>
 </div>
 <div id="caclulating-the-effective-sample-size-ess" class="section level1">
 <h1 class="hasAnchor">
@@ -126,7 +126,7 @@
 
 <span class="fu"><a href="../reference/ess.html">ess</a></span><span class="op">(</span><span class="va">G</span>, h2 <span class="op">=</span> <span class="va">h2</span>, s2 <span class="op">=</span> <span class="va">s2</span><span class="op">)</span>
 <span class="co">#&gt;      N   M        h2        s2     mult      ESS</span>
-<span class="co">#&gt; 1 1500 200 0.7769973 0.9183947 4.259015 6388.523</span></code></pre></div>
+<span class="co">#&gt; 1 1500 200 0.7756924 0.9145577 4.252205 6378.308</span></code></pre></div>
 </div>
   </div>
 

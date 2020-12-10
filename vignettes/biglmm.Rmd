@@ -23,7 +23,7 @@ library(biglmmz)
 library(bigstatsr)
 ```
 
-# Estimating heritability
+# Estimating the heritability
 
 The linear mixed model (LMM) is expected to recover the true heritability 
 of 0.8 given the sample size of 1,500 individuals and 200 causal genetic variants.

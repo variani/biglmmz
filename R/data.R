@@ -14,6 +14,6 @@
 #' @export
 attach_example200 <- function()
 {
-  rds <- system.file("extdata", "example200.rds", package = "biglmmz")
+  rds <- system.file("extdata", "example200.rds", package = "biglmmz", mustWork = TRUE)
   big_attach(rds)
 }
