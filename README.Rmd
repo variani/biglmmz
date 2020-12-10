@@ -36,6 +36,7 @@ recovers the heritability of a quantitative trait on simulated data
 
 ```{r h2}
 library(biglmmz)
+library(bigstatsr)
 
 ## load simulated genotypes
 (G <- attach_example200())
@@ -60,8 +61,7 @@ mod <- biglmmg(y, G = G)
 mod$gamma 
 ```
 
-We next compute the effective sample size (ESS) multiplier
-for the LMM.
+We next compute the effective sample size (ESS) multiplier for the LMM.
 See [pre-print](https://www.biorxiv.org/content/10.1101/2019.12.15.877217v2.full).
 
 Calling the [ess](https://variani.github.io/biglmmz/reference/ess.html) function:
@@ -80,10 +80,10 @@ Calculating the ESS manually:
 # EVD on K = Z'Z/M, where Z is a matrix of scaled genotypes G
 K <- big_crossprodSelf(G, fun.scaling = big_scale_grm(M = M))[]
 # EVD of K
-lamdas <- eigen(K)$values
+lambdas <- eigen(K, only.values = TRUE)$values
 
 # the multiplier
-mult <- (1/s2) * (sum(1/(h2*lamdas + (1-h2))) + (N-M)/(1-h2)) / N
+mult <- (1/s2) * (sum(1/(h2*lambdas + (1-h2))) + (N-M)/(1-h2)) / N
 
 ## print results
 (res <- data.frame(N = N, M = M, h2_hat = h2, s2 = s2, mult = mult))

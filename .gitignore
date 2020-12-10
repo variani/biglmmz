@@ -2,6 +2,8 @@
 
 *.bk
 *.rds
+!inst/extdata/example200.bk
+!inst/extdata/example200.rds
 
 .nfs*
 .Rproj.user
