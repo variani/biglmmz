@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • biglmmz</title>
+<title>Scale and normalize genotypes for GRM. — big_scale_grm • biglmmz</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,10 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Scale and normalize genotypes for GRM. — big_scale_grm" />
+<meta property="og:description" content="The function creates a scaling function 
+to be used for linear algebra operations on FBMs
+through the fun.scaling argument in downstream functions from bigstatsr." />
 
 
 
@@ -58,7 +61,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -112,72 +115,50 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Scale and normalize genotypes for GRM.</h1>
+    
+    <div class="hidden name"><code>big_scale_grm.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>The function creates a scaling function 
+to be used for linear algebra operations on FBMs
+through the fun.scaling argument in downstream functions from bigstatsr.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>big_scale_grm</span><span class='op'>(</span>center <span class='op'>=</span> <span class='cn'>TRUE</span>, scale <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>M</span><span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="attach_example200.html">attach_example200()</a></code> </p>
-        </td>
-        <td><p>Load simulated genotypes in the FBM format.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="big_scale_grm.html">big_scale_grm()</a></code> </p>
-        </td>
-        <td><p>Scale and normalize genotypes for GRM.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="biglmmg.html">biglmmg()</a></code> </p>
-        </td>
-        <td><p>Fit a low-rank LMM on raw genotypes (no explicit scaling).</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="biglmmz.html">biglmmz()</a></code> </p>
-        </td>
-        <td><p>(depreciated) Fit a low-rank LMM on normalized genotypes.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="biglmmzPackage.html">biglmmzPackage</a></code> </p>
-        </td>
-        <td><p>Package biglmmz.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ess.html">ess()</a></code> </p>
-        </td>
-        <td><p>Compute the effective sample size for a LMM.</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>center</th>
+      <td><p>Center?</p></td>
+    </tr>
+    <tr>
+      <th>scale</th>
+      <td><p>Scale?</p></td>
+    </tr>
+    <tr>
+      <th>M</th>
+      <td><p>A normalization value. It is typically equal to sqrt(M).</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A function that returns a data.frame with two columns 
+  "center" and "scale".</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The scaling function works such that the input matrix of raw genotypes
+is represented as a matrix Z, 
+which cross product is the genetic relationship matrix (GRM),
+defined as scale(G) scale(G)' / M</p>
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

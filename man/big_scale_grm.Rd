@@ -2,7 +2,7 @@
 % Please edit documentation in R/biglmmg.R
 \name{big_scale_grm}
 \alias{big_scale_grm}
-\title{Scale and normalize the genotype matrix}
+\title{Scale and normalize genotypes for GRM.}
 \usage{
 big_scale_grm(center = TRUE, scale = TRUE, M)
 }
@@ -20,10 +20,11 @@ A function that returns a data.frame with two columns
 \description{
 The function creates a scaling function 
 to be used for linear algebra operations on FBMs
-through the fun.scaling argument in functions from bigstatsr.
+through the fun.scaling argument in downstream functions from bigstatsr.
 }
 \details{
-The output of scaling function is such a matrix Z,
+The scaling function works such that the input matrix of raw genotypes
+is represented as a matrix Z, 
 which cross product is the genetic relationship matrix (GRM),
 defined as scale(G) scale(G)' / M
 }
