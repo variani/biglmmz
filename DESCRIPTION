@@ -18,8 +18,9 @@ Authors@R: c(
          role = "aut"))
 License: GPL-3
 Encoding: UTF-8
-Imports:
+Depends:
     bigstatsr (>= 0.8.4),
+Imports:
     matrixStats
 Suggests:
     spelling,
