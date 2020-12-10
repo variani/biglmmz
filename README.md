@@ -3,8 +3,11 @@
 
 # biglmmz
 
-[![travis-ci build
-status](https://travis-ci.org/variani/biglmmz.svg?branch=master)](https://travis-ci.org/variani/biglmmz)
+<!-- badges: start -->
+
+[![R build
+status](https://github.com/privefl/biglmmz/workflows/R-CMD-check/badge.svg)](https://github.com/privefl/biglmmz/actions)
+<!-- badges: end -->
 
 Low-rank linear mixed models (LMMs) powered by
 [bigstatsr](https://github.com/privefl/bigstatsr).
@@ -12,14 +15,14 @@ Low-rank linear mixed models (LMMs) powered by
 ## Installation
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("variani/biglmmz")
+# install.packages("remotes")
+remotes::install_github("variani/biglmmz")
 ```
 
-## Example
+## Examples
 
-This is a sanity check to see whether `biglmmg` recovers the
-heritability of a quantitative trait on simulated data (1500
+We first check whether the low-rank linear mixed model (LMM) recovers
+the heritability of a quantitative trait on simulated data (1500
 individuals, 200 genetic markers, 80% heritability).
 
 ``` r
@@ -55,21 +58,39 @@ y <- Zb + rnorm(N, 0, sqrt(1 - h2))
 mod <- biglmmg(y, G = G)
 # check the estimate of h2
 mod$gamma 
-#> [1] 0.7897151
+#> [1] 0.7638058
+```
 
-## compute the effective sample size multipier
-# https://www.biorxiv.org/content/10.1101/2019.12.15.877217v2.full
-# EVD on K = Z'Z/M, where Z is a matrix of scaled genotypes G
-K <- big_crossprodSelf(G, fun.scaling = big_scale_grm(M = M))[]
-lamdas <- eigen(K)$values
+We next compute the effective sample size (ESS) multipier for the LMM.
+See
+[pre-print](https://www.biorxiv.org/content/10.1101/2019.12.15.877217v2.full).
+
+Calling the [ess](https://variani.github.io/biglmmz/reference/ess.html)
+function:
+
+``` r
 # varianace components = s2 * c(h2, 1 - h2)
 h2 <- mod$gamma
 s2 <- mod$s2
+
+ess(G, h2 = h2, s2 = s2)
+#>      N   M        h2        s2     mult      ESS
+#> 1 1500 200 0.7638058 0.8744358 4.225399 6338.099
+```
+
+Calculating the ESS manually:
+
+``` r
+# EVD on K = Z'Z/M, where Z is a matrix of scaled genotypes G
+K <- big_crossprodSelf(G, fun.scaling = big_scale_grm(M = M))[]
+# EVD of K
+lamdas <- eigen(K)$values
+
 # the multiplier
 mult <- (1/s2) * (sum(1/(h2*lamdas + (1-h2))) + (N-M)/(1-h2)) / N
 
 ## print results
 (res <- data.frame(N = N, M = M, h2_hat = h2, s2 = s2, mult = mult))
 #>      N   M    h2_hat        s2     mult
-#> 1 1500 200 0.7897151 0.8709995 4.760366
+#> 1 1500 200 0.7638058 0.8744358 4.225399
 ```

@@ -28,13 +28,13 @@ Low-rank linear mixed models (LMMs) powered by [bigstatsr](https://github.com/pr
 remotes::install_github("variani/biglmmz")
 ```
 
-## Example
+## Examples
 
-This is a sanity check to see whether
-`biglmmg` recovers the heritability of a quantitative trait on simulated data
+We first check whether the low-rank linear mixed model (LMM)
+recovers the heritability of a quantitative trait on simulated data
 (1500 individuals, 200 genetic markers, 80% heritability).
 
-```{r simdat}
+```{r h2}
 library(biglmmz)
 
 ## load simulated genotypes
@@ -58,15 +58,30 @@ y <- Zb + rnorm(N, 0, sqrt(1 - h2))
 mod <- biglmmg(y, G = G)
 # check the estimate of h2
 mod$gamma 
+```
 
-## compute the effective sample size multipier
-# https://www.biorxiv.org/content/10.1101/2019.12.15.877217v2.full
-# EVD on K = Z'Z/M, where Z is a matrix of scaled genotypes G
-K <- big_crossprodSelf(G, fun.scaling = big_scale_grm(M = M))[]
-lamdas <- eigen(K)$values
+We next compute the effective sample size (ESS) multipier
+for the LMM.
+See [pre-print](https://www.biorxiv.org/content/10.1101/2019.12.15.877217v2.full).
+
+Calling the [ess](https://variani.github.io/biglmmz/reference/ess.html) function:
+
+```{r mult}
 # varianace components = s2 * c(h2, 1 - h2)
 h2 <- mod$gamma
 s2 <- mod$s2
+
+ess(G, h2 = h2, s2 = s2)
+```
+
+Calculating the ESS manually:
+
+```{r mult_code}
+# EVD on K = Z'Z/M, where Z is a matrix of scaled genotypes G
+K <- big_crossprodSelf(G, fun.scaling = big_scale_grm(M = M))[]
+# EVD of K
+lamdas <- eigen(K)$values
+
 # the multiplier
 mult <- (1/s2) * (sum(1/(h2*lamdas + (1-h2))) + (N-M)/(1-h2)) / N
 
