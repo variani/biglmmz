@@ -23,28 +23,41 @@ remotes::install_github("variani/biglmmz")
 
 We first check whether the low-rank linear mixed model (LMM) recovers
 the heritability of a quantitative trait on simulated data (1500
-individuals, 200 genetic markers, 80% heritability).
+individuals, 200 genetic markers, heritability 80%).
 
 ``` r
 library(biglmmz)
-library(bigstatsr)
 
 ## load simulated genotypes
 (G <- attach_example200())
-#> A Filebacked Big Matrix of type 'code 256' with 1500 rows and 200 columns.
+```
+
+    #> A Filebacked Big Matrix of type 'code 256' with 1500 rows and 200 columns.
+
+``` r
 (N <- nrow(G))
-#> [1] 1500
+```
+
+    #> [1] 1500
+
+``` r
 (M <- ncol(G))
-#> [1] 200
+```
 
+    #> [1] 200
+
+``` r
 G[1:5, 1:10]
-#>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
-#> [1,]    2    1    0    2    1    1    1    1    2     1
-#> [2,]    1    2    1    1    2    1    1    2    1     1
-#> [3,]    2    2    1    1    1    1    1    0    2     0
-#> [4,]    0    2    0    2    1    0    0    1    0     2
-#> [5,]    1    2    0    2    2    1    0    0    1     0
+```
 
+    #>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+    #> [1,]    2    1    0    2    1    1    1    1    2     1
+    #> [2,]    1    2    1    1    2    1    1    2    1     1
+    #> [3,]    2    2    1    1    1    1    1    0    2     0
+    #> [4,]    0    2    0    2    1    0    0    1    0     2
+    #> [5,]    1    2    0    2    2    1    0    0    1     0
+
+``` r
 ## simulate a phenotype with heritability h2 = 0.8 
 h2 <- 0.8
 # generate effect sizes under the polygenic model
@@ -59,8 +72,9 @@ y <- Zb + rnorm(N, 0, sqrt(1 - h2))
 mod <- biglmmg(y, G = G)
 # check the estimate of h2
 mod$gamma 
-#> [1] 0.8184961
 ```
+
+    #> [1] 0.7972606
 
 We next compute the effective sample size (ESS) multiplier for the LMM.
 See the
@@ -75,9 +89,10 @@ h2 <- mod$gamma
 s2 <- mod$s2
 
 ess(G, h2 = h2, s2 = s2)
-#>      N   M        h2       s2     mult      ESS
-#> 1 1500 200 0.8184961 1.060598 4.524888 6787.332
 ```
+
+    #>      N   M        h2       s2    mult     ESS
+    #> 1 1500 200 0.7972606 1.048888 4.09906 6148.59
 
 Calculating the ESS manually:
 
@@ -92,6 +107,7 @@ mult <- (1/s2) * (sum(1/(h2*lambdas + (1-h2))) + (N-M)/(1-h2)) / N
 
 ## print results
 (res <- data.frame(N = N, M = M, h2_hat = h2, s2 = s2, mult = mult))
-#>      N   M    h2_hat       s2     mult
-#> 1 1500 200 0.8184961 1.060598 4.524888
 ```
+
+    #>      N   M    h2_hat       s2    mult
+    #> 1 1500 200 0.7972606 1.048888 4.09906

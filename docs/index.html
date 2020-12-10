@@ -89,56 +89,57 @@
 <div id="examples" class="section level2">
 <h2 class="hasAnchor">
 <a href="#examples" class="anchor"></a>Examples</h2>
-<p>We first check whether the low-rank linear mixed model (LMM) recovers the heritability of a quantitative trait on simulated data (1500 individuals, 200 genetic markers, 80% heritability).</p>
+<p>We first check whether the low-rank linear mixed model (LMM) recovers the heritability of a quantitative trait on simulated data (1500 individuals, 200 genetic markers, heritability 80%).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">biglmmz</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://privefl.github.io/bigstatsr/">bigstatsr</a></span><span class="op">)</span>
 
 <span class="co">## load simulated genotypes</span>
-<span class="op">(</span><span class="va">G</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/attach_example200.html">attach_example200</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; A Filebacked Big Matrix of type 'code 256' with 1500 rows and 200 columns.</span>
-<span class="op">(</span><span class="va">N</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">G</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; [1] 1500</span>
-<span class="op">(</span><span class="va">M</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">G</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; [1] 200</span>
-
-<span class="va">G</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>
-<span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]</span>
-<span class="co">#&gt; [1,]    2    1    0    2    1    1    1    1    2     1</span>
-<span class="co">#&gt; [2,]    1    2    1    1    2    1    1    2    1     1</span>
-<span class="co">#&gt; [3,]    2    2    1    1    1    1    1    0    2     0</span>
-<span class="co">#&gt; [4,]    0    2    0    2    1    0    0    1    0     2</span>
-<span class="co">#&gt; [5,]    1    2    0    2    2    1    0    0    1     0</span>
-
-<span class="co">## simulate a phenotype with heritability h2 = 0.8 </span>
+<span class="op">(</span><span class="va">G</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/attach_example200.html">attach_example200</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">#&gt; A Filebacked Big Matrix of type 'code 256' with 1500 rows and 200 columns.</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="op">(</span><span class="va">N</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">G</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">#&gt; [1] 1500</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="op">(</span><span class="va">M</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">G</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">#&gt; [1] 200</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">G</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="co">#&gt; [1,]    2    1    0    2    1    1    1    1    2     1</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="co">#&gt; [2,]    1    2    1    1    2    1    1    2    1     1</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="co">#&gt; [3,]    2    2    1    1    1    1    1    0    2     0</span></span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="co">#&gt; [4,]    0    2    0    2    1    0    0    1    0     2</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a><span class="co">#&gt; [5,]    1    2    0    2    2    1    0    0    1     0</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">## simulate a phenotype with heritability h2 = 0.8 </span>
 <span class="va">h2</span> <span class="op">&lt;-</span> <span class="fl">0.8</span>
 <span class="co"># generate effect sizes under the polygenic model</span>
 <span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">M</span>, <span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">h2</span><span class="op">/</span><span class="va">M</span><span class="op">)</span><span class="op">)</span>
 <span class="co"># pre-compute mean and sd values for each genotype</span>
-<span class="va">stats</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://privefl.github.io/bigstatsr/reference/big_scale.html">big_scale</a></span><span class="op">(</span><span class="op">)</span><span class="op">(</span><span class="va">G</span><span class="op">)</span> 
+<span class="va">stats</span> <span class="op">&lt;-</span> <span class="fu">big_scale</span><span class="op">(</span><span class="op">)</span><span class="op">(</span><span class="va">G</span><span class="op">)</span> 
 <span class="co"># compute the matrix-vector product, Z b</span>
-<span class="va">Zb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://privefl.github.io/bigstatsr/reference/big_prodVec.html">big_prodVec</a></span><span class="op">(</span><span class="va">G</span>, <span class="va">b</span>, center <span class="op">=</span> <span class="va">stats</span><span class="op">$</span><span class="va">center</span>, scale <span class="op">=</span> <span class="va">stats</span><span class="op">$</span><span class="va">scale</span><span class="op">)</span>
+<span class="va">Zb</span> <span class="op">&lt;-</span> <span class="fu">big_prodVec</span><span class="op">(</span><span class="va">G</span>, <span class="va">b</span>, center <span class="op">=</span> <span class="va">stats</span><span class="op">$</span><span class="va">center</span>, scale <span class="op">=</span> <span class="va">stats</span><span class="op">$</span><span class="va">scale</span><span class="op">)</span>
 <span class="va">y</span> <span class="op">&lt;-</span> <span class="va">Zb</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span>, <span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">h2</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co">## fit low-rank linear mixed model</span>
 <span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/biglmmg.html">biglmmg</a></span><span class="op">(</span><span class="va">y</span>, G <span class="op">=</span> <span class="va">G</span><span class="op">)</span>
 <span class="co"># check the estimate of h2</span>
-<span class="va">mod</span><span class="op">$</span><span class="va">gamma</span> 
-<span class="co">#&gt; [1] 0.8184961</span></code></pre></div>
+<span class="va">mod</span><span class="op">$</span><span class="va">gamma</span> </code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co">#&gt; [1] 0.7972606</span></span></code></pre></div>
 <p>We next compute the effective sample size (ESS) multiplier for the LMM. See the <a href="https://www.biorxiv.org/content/10.1101/2019.12.15.877217v2.full">pre-print</a>.</p>
 <p>Calling the <a href="https://variani.github.io/biglmmz/reference/ess.html">ess</a> function:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># varianace components = s2 * c(h2, 1 - h2)</span>
 <span class="va">h2</span> <span class="op">&lt;-</span> <span class="va">mod</span><span class="op">$</span><span class="va">gamma</span>
 <span class="va">s2</span> <span class="op">&lt;-</span> <span class="va">mod</span><span class="op">$</span><span class="va">s2</span>
 
-<span class="fu"><a href="reference/ess.html">ess</a></span><span class="op">(</span><span class="va">G</span>, h2 <span class="op">=</span> <span class="va">h2</span>, s2 <span class="op">=</span> <span class="va">s2</span><span class="op">)</span>
-<span class="co">#&gt;      N   M        h2       s2     mult      ESS</span>
-<span class="co">#&gt; 1 1500 200 0.8184961 1.060598 4.524888 6787.332</span></code></pre></div>
+<span class="fu"><a href="reference/ess.html">ess</a></span><span class="op">(</span><span class="va">G</span>, h2 <span class="op">=</span> <span class="va">h2</span>, s2 <span class="op">=</span> <span class="va">s2</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co">#&gt;      N   M        h2       s2    mult     ESS</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="co">#&gt; 1 1500 200 0.7972606 1.048888 4.09906 6148.59</span></span></code></pre></div>
 <p>Calculating the ESS manually:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># EVD on K = Z'Z/M, where Z is a matrix of scaled genotypes G</span>
-<span class="va">K</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://privefl.github.io/bigstatsr/reference/big_crossprodSelf.html">big_crossprodSelf</a></span><span class="op">(</span><span class="va">G</span>, fun.scaling <span class="op">=</span> <span class="fu"><a href="reference/big_scale_grm.html">big_scale_grm</a></span><span class="op">(</span>M <span class="op">=</span> <span class="va">M</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="op">]</span>
+<span class="va">K</span> <span class="op">&lt;-</span> <span class="fu">big_crossprodSelf</span><span class="op">(</span><span class="va">G</span>, fun.scaling <span class="op">=</span> <span class="fu"><a href="reference/big_scale_grm.html">big_scale_grm</a></span><span class="op">(</span>M <span class="op">=</span> <span class="va">M</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="op">]</span>
 <span class="co"># EVD of K</span>
 <span class="va">lambdas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/eigen.html">eigen</a></span><span class="op">(</span><span class="va">K</span>, only.values <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">values</span>
 
@@ -146,9 +147,9 @@
 <span class="va">mult</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="va">s2</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="op">(</span><span class="va">h2</span><span class="op">*</span><span class="va">lambdas</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">h2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="va">N</span><span class="op">-</span><span class="va">M</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">h2</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="va">N</span>
 
 <span class="co">## print results</span>
-<span class="op">(</span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>N <span class="op">=</span> <span class="va">N</span>, M <span class="op">=</span> <span class="va">M</span>, h2_hat <span class="op">=</span> <span class="va">h2</span>, s2 <span class="op">=</span> <span class="va">s2</span>, mult <span class="op">=</span> <span class="va">mult</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt;      N   M    h2_hat       s2     mult</span>
-<span class="co">#&gt; 1 1500 200 0.8184961 1.060598 4.524888</span></code></pre></div>
+<span class="op">(</span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>N <span class="op">=</span> <span class="va">N</span>, M <span class="op">=</span> <span class="va">M</span>, h2_hat <span class="op">=</span> <span class="va">h2</span>, s2 <span class="op">=</span> <span class="va">s2</span>, mult <span class="op">=</span> <span class="va">mult</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="co">#&gt;      N   M    h2_hat       s2    mult</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="co">#&gt; 1 1500 200 0.7972606 1.048888 4.09906</span></span></code></pre></div>
 </div>
 </div>
   </div>

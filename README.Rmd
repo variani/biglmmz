@@ -6,8 +6,7 @@ output: github_document
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
+  comment = "#>",  
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
@@ -30,13 +29,12 @@ remotes::install_github("variani/biglmmz")
 
 ## Examples
 
-We first check whether the low-rank linear mixed model (LMM)
+We first check whether the low-rank linear mixed model (LMM) 
 recovers the heritability of a quantitative trait on simulated data
-(1500 individuals, 200 genetic markers, 80% heritability).
+(1500 individuals, 200 genetic markers, heritability 80%).
 
 ```{r h2}
 library(biglmmz)
-library(bigstatsr)
 
 ## load simulated genotypes
 (G <- attach_example200())
