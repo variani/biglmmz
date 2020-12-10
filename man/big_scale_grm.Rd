@@ -11,7 +11,9 @@ big_scale_grm(center = TRUE, scale = TRUE, M)
 
 \item{scale}{Scale?}
 
-\item{M}{A normalization value. It is typically equal to sqrt(M).}
+\item{M}{A normalization value. 
+It is typically equal to the number of columns in a matrix
+(for which the scaling function is created).}
 }
 \value{
 A function that returns a data.frame with two columns 
@@ -26,5 +28,14 @@ through the fun.scaling argument in downstream functions from bigstatsr.
 The scaling function works such that the input matrix of raw genotypes
 is represented as a matrix Z, 
 which cross product is the genetic relationship matrix (GRM),
-defined as scale(G) scale(G)' / M
+defined as scale(G) scale(G)' / M.
+}
+\examples{
+G <- attach_example200()
+dim(G)
+
+fun_sc <- big_scale_grm(M = ncol(M))
+stats <- fun_sc()(G)
+str(stats)
+
 }

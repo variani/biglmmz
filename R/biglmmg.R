@@ -297,9 +297,19 @@ biglr_fixef_grm <- function(
 #'
 #' @param center Center?
 #' @param scale Scale?
-#' @param M A normalization value. It is typically equal to sqrt(M).
+#' @param M A normalization value. 
+#'   It is typically equal to the number of columns in a matrix
+#'   (for which the scaling function is created).
 #' @return A function that returns a data.frame with two columns 
 #'   "center" and "scale".
+#'
+#' @examples
+#' G <- attach_example200()
+#' dim(G)
+#'
+#' fun_sc <- big_scale_grm(M = ncol(M))
+#' stats <- fun_sc()(G)
+#' str(stats)
 #'
 #' @export
 big_scale_grm <- function(center = TRUE, scale = TRUE, M)
