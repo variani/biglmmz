@@ -60,7 +60,7 @@ mod <- biglmmg(y, G = G)
 mod$gamma 
 ```
 
-We next compute the effective sample size (ESS) multipier
+We next compute the effective sample size (ESS) multiplier
 for the LMM.
 See [pre-print](https://www.biorxiv.org/content/10.1101/2019.12.15.877217v2.full).
 

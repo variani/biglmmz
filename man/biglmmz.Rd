@@ -41,7 +41,7 @@ If M is missing, M = length(cols).}
 \item{cols}{A vector of columns of Z to be used in the model.
 By default, all columns of Z are used.}
 
-\item{backingfile}{The path to a file where the matrix of standardized genotypes 
+\item{backingfile}{The path to a file where the matrix of standardized genotypes
 (internal to the function) is to be stored.
 By default, backingfile = tempfile().}
 
@@ -65,7 +65,7 @@ By default, K = NULL, that means K is pre-computed inside the function.}
 \item{verbose}{The verbose level. The default value is 0 (verbose).}
 }
 \description{
-This function requires more resources 
+This function requires more resources
 to store the matrix of standardized genotypes
 in comparison to the function biglmmg.
 The two functions biglmmz and biglmmg perform the same model fitting,

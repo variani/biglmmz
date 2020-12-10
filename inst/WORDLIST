@@ -1,6 +1,9 @@
+backingfile
+biglmmg
 bigstatsr
-ci
 diag
+ess
+ESS
 FBM
 GRM
 heritability
@@ -10,6 +13,7 @@ ncol
 nrow
 pre
 tcrossprod
+tempfile
 UCV
 Woodbury
 X'Vi
