@@ -293,7 +293,7 @@ biglr_fixef_grm <- function(
 #' The scaling function works such that the input matrix of raw genotypes
 #' is represented as a matrix Z, 
 #' which cross product is the genetic relationship matrix (GRM),
-#' defined as scale(G) scale(G)' / M.
+#' defined as scale(G) scale(G)' / M. In other words, GRM = ZZ'.
 #'
 #' @param center Center?
 #' @param scale Scale?
@@ -309,8 +309,13 @@ biglr_fixef_grm <- function(
 #'
 #' M <- dim(G)[2] # number of columns
 #' fun_sc <- big_scale_grm(M = M)
-#' stats <- do.call(fun_sc, list(X = G))
+#' stats <- do.call(fun_sc, list(G))
 #' str(stats)
+#'
+#' # compare to the standard scaling function from bigstatsr
+#' fun_sc0 <- big_scale()
+#' stats0 <- do.call(fun_sc0, list(G))
+#' str(stats0)
 #'
 #' @export
 big_scale_grm <- function(center = TRUE, scale = TRUE, M)
