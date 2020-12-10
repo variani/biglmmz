@@ -34,8 +34,9 @@ defined as scale(G) scale(G)' / M.
 G <- attach_example200()
 dim(G)
 
-fun_sc <- big_scale_grm(M = ncol(M))
-stats <- fun_sc()(G)
+M <- dim(G)[2] # number of columns
+fun_sc <- big_scale_grm(M = M)
+stats <- do.call(fun_sc, list(X = G))
 str(stats)
 
 }

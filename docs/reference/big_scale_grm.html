@@ -164,10 +164,13 @@ defined as scale(G) scale(G)' / M.</p>
     <pre class="examples"><div class='input'><span class='va'>G</span> <span class='op'>&lt;-</span> <span class='fu'><a href='attach_example200.html'>attach_example200</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span><span class='op'>(</span><span class='va'>G</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] 1500  200</div><div class='input'>
-<span class='va'>fun_sc</span> <span class='op'>&lt;-</span> <span class='fu'>big_scale_grm</span><span class='op'>(</span>M <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span><span class='op'>(</span><span class='va'>M</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>stats</span> <span class='op'>&lt;-</span> <span class='fu'>fun_sc</span><span class='op'>(</span><span class='op'>)</span><span class='op'>(</span><span class='va'>G</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in ncol(x): argument "X" is missing, with no default</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>stats</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in str(stats): object 'stats' not found</span></div><div class='input'>
+<span class='va'>M</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span><span class='op'>(</span><span class='va'>G</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span> <span class='co'># number of columns</span>
+<span class='va'>fun_sc</span> <span class='op'>&lt;-</span> <span class='fu'>big_scale_grm</span><span class='op'>(</span>M <span class='op'>=</span> <span class='va'>M</span><span class='op'>)</span>
+<span class='va'>stats</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></span><span class='op'>(</span><span class='va'>fun_sc</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>G</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>stats</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 'data.frame':	200 obs. of  2 variables:
+#&gt;  $ center: num  0.966 1.002 1.005 0.997 0.997 ...
+#&gt;  $ scale : num  9.85 10.02 9.84 10 9.92 ...</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
