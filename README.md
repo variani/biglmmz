@@ -27,6 +27,7 @@ individuals, 200 genetic markers, 80% heritability).
 
 ``` r
 library(biglmmz)
+library(bigstatsr)
 
 ## load simulated genotypes
 (G <- attach_example200())
@@ -38,11 +39,11 @@ library(biglmmz)
 
 G[1:5, 1:10]
 #>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
-#> [1,]    1    1    0    1    1    2    2    0    2     1
-#> [2,]    2    0    2    0    1    1    0    1    1     0
-#> [3,]    2    0    2    1    0    1    1    1    1     2
-#> [4,]    1    2    1    0    2    1    2    1    1     1
-#> [5,]    1    2    1    1    1    2    0    2    1     0
+#> [1,]    2    1    0    2    1    1    1    1    2     1
+#> [2,]    1    2    1    1    2    1    1    2    1     1
+#> [3,]    2    2    1    1    1    1    1    0    2     0
+#> [4,]    0    2    0    2    1    0    0    1    0     2
+#> [5,]    1    2    0    2    2    1    0    0    1     0
 
 ## simulate a phenotype with heritability h2 = 0.8 
 h2 <- 0.8
@@ -58,11 +59,11 @@ y <- Zb + rnorm(N, 0, sqrt(1 - h2))
 mod <- biglmmg(y, G = G)
 # check the estimate of h2
 mod$gamma 
-#> [1] 0.7638058
+#> [1] 0.8184961
 ```
 
-We next compute the effective sample size (ESS) multipier for the LMM.
-See
+We next compute the effective sample size (ESS) multiplier for the LMM.
+See the
 [pre-print](https://www.biorxiv.org/content/10.1101/2019.12.15.877217v2.full).
 
 Calling the [ess](https://variani.github.io/biglmmz/reference/ess.html)
@@ -74,8 +75,8 @@ h2 <- mod$gamma
 s2 <- mod$s2
 
 ess(G, h2 = h2, s2 = s2)
-#>      N   M        h2        s2     mult      ESS
-#> 1 1500 200 0.7638058 0.8744358 4.225399 6338.099
+#>      N   M        h2       s2     mult      ESS
+#> 1 1500 200 0.8184961 1.060598 4.524888 6787.332
 ```
 
 Calculating the ESS manually:
@@ -84,13 +85,13 @@ Calculating the ESS manually:
 # EVD on K = Z'Z/M, where Z is a matrix of scaled genotypes G
 K <- big_crossprodSelf(G, fun.scaling = big_scale_grm(M = M))[]
 # EVD of K
-lamdas <- eigen(K)$values
+lambdas <- eigen(K, only.values = TRUE)$values
 
 # the multiplier
-mult <- (1/s2) * (sum(1/(h2*lamdas + (1-h2))) + (N-M)/(1-h2)) / N
+mult <- (1/s2) * (sum(1/(h2*lambdas + (1-h2))) + (N-M)/(1-h2)) / N
 
 ## print results
 (res <- data.frame(N = N, M = M, h2_hat = h2, s2 = s2, mult = mult))
-#>      N   M    h2_hat        s2     mult
-#> 1 1500 200 0.7638058 0.8744358 4.225399
+#>      N   M    h2_hat       s2     mult
+#> 1 1500 200 0.8184961 1.060598 4.524888
 ```

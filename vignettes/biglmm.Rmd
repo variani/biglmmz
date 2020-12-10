@@ -48,7 +48,7 @@ mod <- biglmmg(y, G = G)
 mod$gamma
 ```
 
-# Caclulating the effective sample size (ESS)
+# Calculating the effective sample size (ESS)
 
 ```{r ess}
 # varianace components = s2 * c(h2, 1 - h2)

@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="(depreciated) Fit a low-rank LMM on normalized genotypes. — biglmmz" />
-<meta property="og:description" content="This function requires more resources 
+<meta property="og:description" content="This function requires more resources
 to store the matrix of standardized genotypes
 in comparison to the function biglmmg.
 The two functions biglmmz and biglmmg perform the same model fitting,
@@ -125,7 +125,7 @@ but biglmmg is recommended." />
     </div>
 
     <div class="ref-description">
-    <p>This function requires more resources 
+    <p>This function requires more resources
 to store the matrix of standardized genotypes
 in comparison to the function biglmmg.
 The two functions biglmmz and biglmmg perform the same model fitting,
@@ -183,7 +183,7 @@ By default, all columns of Z are used.</p></td>
     </tr>
     <tr>
       <th>backingfile</th>
-      <td><p>The path to a file where the matrix of standardized genotypes 
+      <td><p>The path to a file where the matrix of standardized genotypes
 (internal to the function) is to be stored.
 By default, backingfile = tempfile().</p></td>
     </tr>
@@ -236,17 +236,17 @@ y_i =  X_i b + u_i + e_i, where</p>
 <span class='va'>G</span>
 </div><div class='output co'>#&gt; A Filebacked Big Matrix of type 'code 256' with 1500 rows and 200 columns.</div><div class='input'><span class='va'>G</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>]</span>
 </div><div class='output co'>#&gt;      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
-#&gt; [1,]    1    1    0    1    1    2    2    0    2     1
-#&gt; [2,]    2    0    2    0    1    1    0    1    1     0
-#&gt; [3,]    2    0    2    1    0    1    1    1    1     2
-#&gt; [4,]    1    2    1    0    2    1    2    1    1     1
-#&gt; [5,]    1    2    1    1    1    2    0    2    1     0</div><div class='input'>
+#&gt; [1,]    2    1    0    2    1    1    1    1    2     1
+#&gt; [2,]    1    2    1    1    2    1    1    2    1     1
+#&gt; [3,]    2    2    1    1    1    1    1    0    2     0
+#&gt; [4,]    0    2    0    2    1    0    0    1    0     2
+#&gt; [5,]    1    2    0    2    2    1    0    0    1     0</div><div class='input'>
 <span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>G</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># generate a random phenotype</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>y</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] -0.25993715 -1.55323598 -0.04525281  0.67735566  0.53612501  0.61687349</div><div class='input'>
+</div><div class='output co'>#&gt; [1] -1.0834910  0.9668578 -0.4805308 -1.0410362  0.1996300  1.7129068</div><div class='input'>
 <span class='va'>mod</span> <span class='op'>&lt;-</span> <span class='fu'>biglmmz</span><span class='op'>(</span><span class='va'>y</span>, Z <span class='op'>=</span> <span class='va'>G</span>, scale <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='va'>mod</span><span class='op'>$</span><span class='va'>gamma</span> <span class='co'># estimated h2</span>
-</div><div class='output co'>#&gt; [1] 6.610696e-05</div><div class='input'>
+</div><div class='output co'>#&gt; [1] 0.01656176</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

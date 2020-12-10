@@ -62,7 +62,7 @@ mod$gamma
 ```
 
 We next compute the effective sample size (ESS) multiplier for the LMM.
-See [pre-print](https://www.biorxiv.org/content/10.1101/2019.12.15.877217v2.full).
+See the [pre-print](https://www.biorxiv.org/content/10.1101/2019.12.15.877217v2.full).
 
 Calling the [ess](https://variani.github.io/biglmmz/reference/ess.html) function:
 

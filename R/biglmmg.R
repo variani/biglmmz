@@ -283,6 +283,24 @@ biglr_fixef_grm <- function(
 #--------------------
 # Scaling function
 #--------------------
+
+#' Scale and normalize the genotype matrix
+#'
+#' The function creates a scaling function 
+#' to be used for linear algebra operations on FBMs
+#' through the fun.scaling argument in functions from bigstatsr.
+#'
+#' The output of scaling function is such a matrix Z,
+#' which cross product is the genetic relationship matrix (GRM),
+#' defined as scale(G) scale(G)' / M
+#'
+#' @param center Center?
+#' @param scale Scale?
+#' @param M A normalization value. It is typically equal to sqrt(M).
+#' @return A function that returns a data.frame with two columns 
+#'   "center" and "scale".
+#'
+#' @export
 big_scale_grm <- function(center = TRUE, scale = TRUE, M)
 {
   function(X, ind.row = rows_along(X), ind.col = cols_along(X)) {

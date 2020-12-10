@@ -75,7 +75,7 @@
       <h1 data-toc-skip>Low-rank mixed models</h1>
                         <h4 class="author">Andrey Ziyatdinov</h4>
             
-            <h4 class="date">2020-12-09</h4>
+            <h4 class="date">2020-12-10</h4>
       
       
       <div class="hidden name"><code>biglmm.Rmd</code></div>
@@ -89,7 +89,7 @@
 <a href="#about" class="anchor"></a>About</h1>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">biglmmz</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://privefl.github.io/bigstatsr/">bigstatsr</a></span><span class="op">)</span></code></pre></div>
+<span class="co">#&gt; Loading required package: bigstatsr</span></code></pre></div>
 </div>
 <div id="estimating-the-heritability" class="section level1">
 <h1 class="hasAnchor">
@@ -114,19 +114,19 @@
 <span class="va">G</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://privefl.github.io/bigstatsr/reference/FBM-class.html">as_FBM</a></span><span class="op">(</span><span class="va">Zg</span><span class="op">)</span>
 <span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/biglmmg.html">biglmmg</a></span><span class="op">(</span><span class="va">y</span>, G <span class="op">=</span> <span class="va">G</span><span class="op">)</span>
 <span class="va">mod</span><span class="op">$</span><span class="va">gamma</span>
-<span class="co">#&gt; [1] 0.7756924</span></code></pre></div>
+<span class="co">#&gt; [1] 0.8023581</span></code></pre></div>
 </div>
-<div id="caclulating-the-effective-sample-size-ess" class="section level1">
+<div id="calculating-the-effective-sample-size-ess" class="section level1">
 <h1 class="hasAnchor">
-<a href="#caclulating-the-effective-sample-size-ess" class="anchor"></a>Caclulating the effective sample size (ESS)</h1>
+<a href="#calculating-the-effective-sample-size-ess" class="anchor"></a>Calculating the effective sample size (ESS)</h1>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># varianace components = s2 * c(h2, 1 - h2)</span>
 <span class="va">h2</span> <span class="op">&lt;-</span> <span class="va">mod</span><span class="op">$</span><span class="va">gamma</span>
 <span class="va">s2</span> <span class="op">&lt;-</span> <span class="va">mod</span><span class="op">$</span><span class="va">s2</span>
 
 <span class="fu"><a href="../reference/ess.html">ess</a></span><span class="op">(</span><span class="va">G</span>, h2 <span class="op">=</span> <span class="va">h2</span>, s2 <span class="op">=</span> <span class="va">s2</span><span class="op">)</span>
-<span class="co">#&gt;      N   M        h2        s2     mult      ESS</span>
-<span class="co">#&gt; 1 1500 200 0.7756924 0.9145577 4.252205 6378.308</span></code></pre></div>
+<span class="co">#&gt;      N   M        h2       s2     mult      ESS</span>
+<span class="co">#&gt; 1 1500 200 0.8023581 1.047852 4.208126 6312.189</span></code></pre></div>
 </div>
   </div>
 
