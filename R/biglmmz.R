@@ -4,7 +4,7 @@
 
 #' (depreciated) Fit a low-rank LMM on normalized genotypes.
 #'
-#' This function requires more resources 
+#' This function requires more resources
 #' to store the matrix of standardized genotypes
 #' in comparison to the function biglmmg.
 #' The two functions biglmmz and biglmmg perform the same model fitting,
@@ -24,9 +24,9 @@
 #'   genetic relationship matrix: GRM = Z'Z / M,
 #'   where Z is a matrix of standardized genotypes.
 #'   If M is missing, M = length(cols).
-#' @param backingfile The path to a file where the matrix of standardized genotypes 
+#' @param backingfile The path to a file where the matrix of standardized genotypes
 #'   (internal to the function) is to be stored.
-#'   By default, backingfile = tempfile(). 
+#'   By default, backingfile = tempfile().
 #' @param copy_Z (advanced) A boolean indicating whether the input matrix Z
 #'   is ready for analysis or need to be copied.
 #'   By default, copy_Z = TRUE.

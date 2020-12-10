@@ -10,6 +10,3 @@ vignettes/
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.github$
-
-\.bk
-\.rds

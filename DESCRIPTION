@@ -16,7 +16,7 @@ Authors@R: c(
   person("Hugues", "Aschard", 
          email = "hugues.aschard@pasteur.fr",
          role = "aut"))
-License: GPL-3 + file LICENSE
+License: GPL-3
 Encoding: UTF-8
 Imports:
     bigstatsr (>= 0.8.4),
@@ -37,5 +37,4 @@ Collate:
     'biglmmg.R'
     'ess.R'
 RoxygenNote: 7.1.1
-VignetteBuilder: knitr
 Language: en-US
